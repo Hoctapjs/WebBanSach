@@ -1,0 +1,113 @@
+﻿@model List<WebBanSach.Models.CartItem>
+@{
+    ViewBag.Title = "Your Cart";
+}
+
+<style>
+    h2 {
+        text-align: center;
+        font-size: 45px;
+        margin-bottom: 30px;
+        color: #343a40;
+    }
+
+    .cart-table {
+        width: 100%;
+        background-color: #ffffff;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+        .cart-table th {
+            background-color: #c5a992 !important; /* Màu giống nút Proceed to Checkout */
+            color: white;
+            text-align: center;
+        }
+
+
+        .cart-table td {
+            text-align: center;
+            vertical-align: middle;
+        }
+
+    .cart-image {
+        width: 60px;
+        height: auto;
+        border-radius: 5px;
+        object-fit: cover;
+    }
+
+    .btn-remove {
+        color: #dc3545;
+        text-decoration: none;
+    }
+
+        .btn-remove:hover {
+            text-decoration: underline;
+        }
+
+    .cart-summary {
+        text-align: right;
+        margin-top: 20px;
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .btn-checkout {
+        float: right;
+        margin-top: 10px;
+    }
+
+    .empty-cart {
+        text-align: center;
+        font-size: 20px;
+        color: #666;
+    }
+</style>
+
+<div class="container py-4">
+    <h2>Your Cart</h2>
+
+    @if (!Model.Any())
+    {
+        <p class="empty-cart">Your cart is empty.</p>
+    }
+    else
+    {
+        <table class="table cart-table">
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Book</th>
+                    <th>Price</th>
+                    <th>Qty</th>
+                    <th>Total</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <img src="@item.ImageUrl" alt="Book Image" class="cart-image" />
+                        </td>
+                        <td>@item.Title</td>
+                        <td>@String.Format("{0:N0}₫", item.Price)</td>
+                        <td>@item.Quantity</td>
+                        <td>@String.Format("{0:N0}₫", item.Price * item.Quantity)</td>
+                        <td>
+                            @Html.ActionLink("Remove", "Remove", new { id = item.BookId }, new { @class = "btn-remove" })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div class="cart-summary">
+            Total: @String.Format("{0:N0}₫", Model.Sum(x => x.Price * x.Quantity))
+        </div>
+        <a href="@Url.Action("Checkout", "Order")" class="btn btn-primary btn-checkout">Proceed to Checkout</a>
+    }
+</div>

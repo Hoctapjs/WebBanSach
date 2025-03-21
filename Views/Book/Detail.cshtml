@@ -1,0 +1,37 @@
+﻿@* Views/Book/Detail.cshtml *@
+@model WebBanSach.Models.Book
+
+@{
+    ViewBag.Title = "Book Detail";
+}
+
+<section id="best-selling" class="leaf-pattern-overlay">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="row">
+                    <div class="col-md-6">
+                        <figure class="products-thumb">
+                            <img src="@Model.ImageUrl" alt="@Model.Title" class="single-image">
+                        </figure>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="product-entry">
+                            <h2 class="section-title divider">@Model.Title</h2>
+                            <div class="products-content">
+                                <div class="author-name">By @Model.Author</div>
+                                <p>@Model.Description</p>
+                                <div class="item-price">$ @Model.Price</div>
+                                <div class="btn-wrap">
+                                    <a href="@Url.Action("AddToCart", "Cart", new { id = Model.Id })" class="btn-accent-arrow">
+                                        Add to Cart <i class="icon icon-ns-arrow-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- / row -->
+            </div>
+        </div>
+    </div>
+</section>

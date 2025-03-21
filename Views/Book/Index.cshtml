@@ -1,0 +1,37 @@
+﻿@* Views/Book/Index.cshtml *@
+@model IEnumerable<WebBanSach.Models.Book>
+
+@{
+    ViewBag.Title = "Book List";
+}
+
+<section id="featured-books" class="py-5 my-5">
+    <div class="container">
+        <div class="section-header align-center">
+            <div class="title">
+                <span>Our Collection</span>
+            </div>
+            <h2 class="section-title">All Books</h2>
+        </div>
+
+        <div class="row">
+            @foreach (var book in Model)
+            {
+                <div class="col-md-3">
+                    <div class="product-item">
+                        <figure class="product-style">
+                            
+                            <a href="@Url.Action("Detail", "Book", new { id = book.Id })" class="add-to-cart"><img src="@book.ImageUrl" alt="@book.Title" class="product-item" /></a>
+                        </figure>
+                        <figcaption>
+                            <h3>@book.Title</h3>
+                            <span>@book.Author</span>
+                            <div class="item-price">$ @book.Price</div>
+                            <a href="@Url.Action("AddToCart", "Cart", new { id = book.Id })" class="add-to-cart" style="font-size:25px; text-decoration: underline;">Add to Cart</a>
+
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
