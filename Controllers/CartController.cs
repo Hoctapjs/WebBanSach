@@ -11,8 +11,8 @@ namespace WebBanSach.Controllers
     {
         private const string CartSession = "Cart";
 
-        private BookStoreDbContext db = new BookStoreDbContext();
-
+        ApplicationDbContext db = new ApplicationDbContext();
+        [Authorize]
         public ActionResult Index()
         {
             var cart = Session[CartSession] as List<CartItem> ?? new List<CartItem>();
@@ -63,6 +63,16 @@ namespace WebBanSach.Controllers
         {
             Session[CartSession] = new List<CartItem>();
             return RedirectToAction("Index");
+        }
+
+        [ChildActionOnly]
+        public ActionResult CartSummary()
+        {
+            var cart = Session["Cart"] as List<CartItem>;
+            int quantity = cart?.Sum(item => item.Quantity) ?? 0;
+            ViewBag.TotalItems = quantity;
+
+            return PartialView("_CartSummary");
         }
     }
 }

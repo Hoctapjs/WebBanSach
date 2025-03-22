@@ -1,0 +1,7 @@
+﻿@{
+    var quantity = ViewBag.TotalItems ?? 0;
+}
+
+<a href="@Url.Action("Index", "Cart")" class="cart-link">
+    🛒 Cart (@quantity)
+</a>

@@ -15,7 +15,7 @@ namespace WebBanSach.Controllers
 
         public BookController()
         {
-            var context = new BookStoreDbContext();
+            var context = new ApplicationDbContext();
             var repo = new BookRepository(context);
             _bookService = new BookService(repo);
         }

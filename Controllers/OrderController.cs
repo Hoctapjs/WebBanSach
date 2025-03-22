@@ -9,10 +9,11 @@ namespace WebBanSach.Controllers
 {
     public class OrderController : Controller
     {
-        private readonly BookStoreDbContext db = new BookStoreDbContext();
+        private readonly ApplicationDbContext db = new ApplicationDbContext();
         private const string CartSession = "Cart";
 
         // Hiển thị form xác nhận
+        [Authorize]
         public ActionResult Checkout()
         {
             var cart = Session[CartSession] as List<CartItem>;
@@ -61,6 +62,7 @@ namespace WebBanSach.Controllers
             return RedirectToAction("ThankYou");
         }
 
+        [Authorize]
         public ActionResult ThankYou()
         {
             return View();

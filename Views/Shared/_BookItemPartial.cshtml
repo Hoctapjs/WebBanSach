@@ -1,0 +1,19 @@
+﻿@model WebBanSach.Models.Book
+
+<div class="col-md-3">
+    <div class="product-item">
+        <figure class="product-style">
+            <a href="@Url.Action("Details", "Book", new { id = Model.Id })">
+                <img src="@Model.ImageUrl" alt="@Model.Title" class="book-image" />
+            </a>
+        </figure>
+        <figcaption class="text-center">
+            <h3>@Model.Title</h3>
+            <span>@Model.Author</span>
+            <div class="item-price">@String.Format("{0:N0}₫", Model.Price)</div>
+            <a href="@Url.Action("AddToCart", "Cart", new { id = Model.Id })" class="add-to-cart btn btn-primary mt-2">
+                Add to Cart
+            </a>
+        </figcaption>
+    </div>
+</div>

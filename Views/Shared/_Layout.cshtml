@@ -38,15 +38,31 @@
                     </div>
                     <div class="col-md-6">
                         <div class="right-element">
-                            <a href="#" class="user-account for-buy">
-                                <i class="icon icon-user"></i><span>Account</span>
-                            </a>
-                            <a href="#" class="cart for-buy">
-                                <i class="icon icon-clipboard"></i><span>
-                                    Cart:(0
-                                    $)
-                                </span>
-                            </a>
+
+                            @if (Request.IsAuthenticated)
+                            {
+                                <a href="#" style="margin-right: 20px;">Hello, @User.Identity.Name</a>
+                                <a href="@Url.Action("Logout", "Account")" class="user-account for-buy">
+                                    <i class="icon icon-user"></i><span>Logout</span>
+                                </a>
+                                @Html.Action("CartSummary", "Cart")
+                            }
+                            else
+                            {
+                                <a href="@Url.Action("Login", "Account")" class="user-account for-buy">
+                                    <i class="icon icon-user"></i><span>Login</span>
+                                </a>
+                                <a href="@Url.Action("Register", "Account")" class="user-account for-buy">
+                                    <i class="icon icon-user"></i><span>Register</span>
+                                </a>
+                                <a href="#" class="cart for-buy">
+                                    <i class="icon icon-clipboard"></i><span>
+                                        Cart:(0
+                                        $)
+                                    </span>
+                                </a>
+                            }
+
 
                             <div class="action-menu">
 

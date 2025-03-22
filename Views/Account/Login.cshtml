@@ -1,0 +1,94 @@
+﻿@model WebBanSach.Models.LoginViewModel
+
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .login-container {
+        max-width: 400px;
+        margin: 100px auto;
+        padding: 30px;
+        background-color: #fdfaf4;
+        border: 1px solid #e6decf;
+        border-radius: 10px;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        font-family: 'Georgia', serif;
+    }
+
+        .login-container h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #5a4d36;
+            font-weight: bold;
+        }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+        .form-group label {
+            font-weight: bold;
+            color: #5a4d36;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #c1b69c;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+
+    .btn-login {
+        width: 100%;
+        padding: 10px;
+        background-color: #c5a992;
+        color: white;
+        font-weight: bold;
+        border: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+
+        .btn-login:hover {
+            background-color: #a8876a;
+        }
+
+    .login-footer {
+        text-align: center;
+        margin-top: 15px;
+    }
+
+        .login-footer a {
+            color: #5a4d36;
+            text-decoration: underline;
+        }
+</style>
+
+<div class="login-container">
+    <h2>Login to Your Account</h2>
+
+    @using (Html.BeginForm())
+    {
+        <div class="form-group">
+            @Html.LabelFor(m => m.Username)
+            @Html.TextBoxFor(m => m.Username, new { @class = "form-control", placeholder = "Enter your username" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Password)
+            @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Enter your password" })
+        </div>
+
+        <button type="submit" class="btn-login">Login</button>
+    }
+
+    <div class="login-footer">
+        Don't have an account?
+        <a href="@Url.Action("Register", "Account")">Register here</a>
+    </div>
+</div>

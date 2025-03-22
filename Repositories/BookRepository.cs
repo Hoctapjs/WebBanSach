@@ -9,9 +9,9 @@ namespace WebBanSach.Repositories
 {
     public class BookRepository : IBookRepository
     {
-        private readonly BookStoreDbContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public BookRepository(BookStoreDbContext context)
+        public BookRepository(ApplicationDbContext context)
         {
             _context = context;
         }
