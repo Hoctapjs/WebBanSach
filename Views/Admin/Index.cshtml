@@ -4,46 +4,54 @@
 }
 
 <style>
+    .admin-container {
+        display: flex;
+        min-height: 100vh;
+    }
+
     .admin-sidebar {
         width: 250px;
         background-color: #343a40;
         color: #fff;
         padding: 20px;
-        height: 100vh;
-        position: fixed;
-        top: 0;
-        left: 0;
+        flex-shrink: 0;
     }
 
-    .admin-sidebar h3 {
-        color: #ffc107;
-        margin-bottom: 20px;
-    }
+        .admin-sidebar h3 {
+            color: #ffc107;
+            margin-bottom: 20px;
+            font-size: 22px;
+        }
 
-    .admin-sidebar ul {
-        list-style: none;
-        padding: 0;
-    }
+        .admin-sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
 
-    .admin-sidebar ul li {
-        margin: 15px 0;
-    }
+            .admin-sidebar ul li {
+                margin: 15px 0;
+            }
 
-    .admin-sidebar ul li a {
-        color: #fff;
-        text-decoration: none;
-        display: block;
-        transition: 0.3s;
-    }
+                .admin-sidebar ul li a {
+                    color: #fff;
+                    text-decoration: none;
+                    padding: 8px 12px;
+                    display: block;
+                    border-radius: 4px;
+                    transition: all 0.3s ease;
+                }
 
-    .admin-sidebar ul li a:hover {
-        color: #ffc107;
-        padding-left: 5px;
-    }
+                    .admin-sidebar ul li a:hover,
+                    .admin-sidebar ul li a.active {
+                        background-color: #495057;
+                        color: #ffc107;
+                    }
 
     .admin-main-content {
-        margin-left: 270px;
+        flex: 1;
         padding: 30px;
+        background-color: #f1f3f5;
     }
 
     .dashboard-cards {
@@ -54,53 +62,64 @@
 
     .card {
         flex: 1;
-        min-width: 200px;
-        background-color: #f8f9fa;
-        padding: 20px;
+        min-width: 220px;
+        background-color: #ffffff;
+        padding: 25px;
         border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
         text-align: center;
+        transition: transform 0.3s ease;
     }
 
-    .card h4 {
-        margin-bottom: 10px;
-    }
+        .card:hover {
+            transform: translateY(-5px);
+        }
 
-    .card .value {
-        font-size: 24px;
-        font-weight: bold;
-        color: #007bff;
+        .card h4 {
+            margin-bottom: 10px;
+            font-size: 20px;
+            color: #343a40;
+        }
+
+        .card .value {
+            font-size: 28px;
+            font-weight: bold;
+            color: #007bff;
+        }
+
+    .admin-main-content h2 {
+        margin-bottom: 30px;
     }
 </style>
 
-<div class="admin-sidebar">
-    <h3>Admin Panel</h3>
-    <ul>
-        <li><a href="@Url.Action("Index", "Admin")">Dashboard</a></li>
-        <li><a href="@Url.Action("Books", "Admin")">Quản lý sách</a></li>
-        <li><a href="@Url.Action("Users", "Admin")">Quản lý người dùng</a></li>
-        <li><a href="@Url.Action("Orders", "Admin")">Quản lý đơn hàng</a></li>
-    </ul>
-</div>
+<div class="admin-container">
+    <!-- Sidebar -->
+    <div class="admin-sidebar">
+        <h3>Admin Panel</h3>
+        <ul>
+            <li><a href="@Url.Action("Index", "Admin")">Dashboard</a></li>
+            <li><a href="@Url.Action("Books", "Admin")">Quản lý sách</a></li>
+            <li><a href="@Url.Action("Users", "Admin")">Quản lý người dùng</a></li>
+            <li><a href="@Url.Action("Orders", "Admin")">Quản lý đơn hàng</a></li>
+        </ul>
+    </div>
 
-<div class="admin-main-content">
-    <h2>Thống kê tổng quan</h2>
-    <div class="dashboard-cards">
-        <div class="card">
-            <h4>Tổng sách</h4>
-            <div class="value">@ViewBag.TotalBooks</div>
-        </div>
-        <div class="card">
-            <h4>Người dùng</h4>
-            <div class="value">@ViewBag.TotalUsers</div>
-        </div>
-        <div class="card">
-            <h4>Đơn hàng</h4>
-            <div class="value">@ViewBag.TotalOrders</div>
-        </div>
-        <div class="card">
-            <h4>Doanh thu</h4>
-            <div class="value">@String.Format("{0:N0} ₫", ViewBag.TotalRevenue)</div>
+    <!-- Main content -->
+    <div class="admin-main-content">
+        <h2>General Statistics</h2>
+        <div class="dashboard-cards">
+            <div class="card">
+                <h4>Tổng sách</h4>
+                <div class="value">@ViewBag.TotalBooks</div>
+            </div>
+            <div class="card">
+                <h4>Người dùng</h4>
+                <div class="value">@ViewBag.TotalUsers</div>
+            </div>
+            <div class="card">
+                <h4>Đơn hàng</h4>
+                <div class="value">@ViewBag.TotalOrders</div>
+            </div>
         </div>
     </div>
 </div>

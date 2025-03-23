@@ -1,4 +1,4 @@
-﻿@model List<WebBanSach.Models.User>
+﻿@model List<WebBanSach.Models.ApplicationUser>
 
 @{
     ViewBag.Title = "Users";
@@ -22,7 +22,7 @@
     @foreach (var user in Model)
     {
         <tr>
-            <td>@user.Username</td>
+            <td>@user.UserName</td>
             <td>@user.Email</td>
             <td>@user.Role</td>
         </tr>

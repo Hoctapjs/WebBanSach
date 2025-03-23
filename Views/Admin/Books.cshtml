@@ -26,7 +26,7 @@
             <td>@book.Title</td>
             <td>@book.Author</td>
             <td>@String.Format("{0:N0}₫", book.Price)</td>
-            <td>@book.Category?.Name</td>
+            <td>@book.Category.Name</td>
         </tr>
     }
 </table>
