@@ -6,8 +6,9 @@
 }
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Register", "Account", FormMethod.Post))
 {
+    @Html.AntiForgeryToken()
     @Html.LabelFor(m => m.Username)
     @Html.TextBoxFor(m => m.Username)
     <br />
