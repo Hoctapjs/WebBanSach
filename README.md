@@ -1,2 +1,2 @@
-data mẫu trong insert data mẫu.sql,
-ae có thể dựa vào mấy file cs model để chạy migration tạo dữ liệu hoặc tạo tay dựa trên model
+data mẫu trong bookstore_all_table_data.sql,
+ae có thể chạy file trên để tạo database mẫu, và nếu muốn phát triển các tính năng về dữ liệu thì ae tìm hiểu và chạy migration cho project nhé
