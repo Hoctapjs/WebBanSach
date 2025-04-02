@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
@@ -48,7 +49,7 @@ namespace WebBanSach.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Username, FullName = model.Fullname ,Email = model.Email, Role = "User" };
+                var user = new ApplicationUser { UserName = model.Username, FullName = model.Fullname, Email = model.Email, Role = "User" };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -67,30 +68,45 @@ namespace WebBanSach.Controllers
         }
 
         [HttpPost]
-        public async System.Threading.Tasks.Task<ActionResult> Login(LoginViewModel model)
+        public async Task<ActionResult> Login(LoginViewModel model)
         {
             if (!ModelState.IsValid)
-                return View(model);
-
-            var user = await UserManager.FindAsync(model.Username, model.Password);
-            if (user != null)
             {
-                await SignInAsync(user, isPersistent: false);
-                if (user.Role == "Admin")
-                {
-                    return RedirectToAction("Index", "Admin");
-                }
-                else
-                {
-                    return RedirectToAction("Index", "Home");
-                }
+                TempData["LoginMessage"] = "Vui lòng nhập đầy đủ thông tin.";
+                return View(model);
+            }
+
+            // Kiểm tra tồn tại username    
+            var user = await UserManager.FindByNameAsync(model.Username);
+            if (user == null)
+            {
+                TempData["LoginMessage"] = "Tên đăng nhập không tồn tại.";
+                return View(model);
+            }
+
+            // Kiểm tra mật khẩu
+            var isPasswordValid = await UserManager.CheckPasswordAsync(user, model.Password);
+            if (!isPasswordValid)
+            {
+                TempData["LoginMessage"] = "Mật khẩu không đúng.";
+                return View(model);
+            }   
+
+            // Đăng nhập
+            await SignInAsync(user, isPersistent: false);
+            TempData["LoginMessage"] = "Đăng nhập thành công.";
+
+            if (user.Role == "Admin")
+            {
+                return RedirectToAction("Index", "Admin");
             }
             else
             {
-                ModelState.AddModelError("", "Invalid login attempt.");
-                return View(model);
+                return RedirectToAction("Index", "Home");
             }
         }
+
+
 
         private async System.Threading.Tasks.Task SignInAsync(ApplicationUser user, bool isPersistent)
         {

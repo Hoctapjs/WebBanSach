@@ -67,11 +67,19 @@
             color: #5a4d36;
             text-decoration: underline;
         }
+    .message {
+        font-family: 'Times New Roman';
+    }
 </style>
 
 <div class="login-container">
     <h2>Login to Your Account</h2>
-
+    @if (TempData["LoginMessage"] != null)
+    {
+        <div class="alert alert-danger text-center" style="margin-bottom: 15px;">
+            <span class="message">@TempData["LoginMessage"]</span>
+        </div>
+    }
     @using (Html.BeginForm())
     {
         <div class="form-group">

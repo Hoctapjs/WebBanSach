@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using Newtonsoft.Json;
 
 namespace WebBanSach
 {
@@ -13,6 +14,13 @@ namespace WebBanSach
 
             // Web API routes
             config.MapHttpAttributeRoutes();
+
+            // Tắt vòng lặp khi serialize
+            var json = config.Formatters.JsonFormatter;
+            json.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+
+            // Optional: format JSON cho đẹp
+            json.SerializerSettings.Formatting = Formatting.Indented;
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
