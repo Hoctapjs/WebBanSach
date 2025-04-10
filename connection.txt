@@ -1,0 +1,2 @@
+BookStoreConnection
+Data Source=125.212.218.22\MSSQLSERVER2022;Initial Catalog=BookStoreDb;User ID=phong_sa;Password=090804Phong300;

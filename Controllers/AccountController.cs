@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -45,19 +46,52 @@ namespace WebBanSach.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async System.Threading.Tasks.Task<ActionResult> Register(RegisterViewModel model)
+        public async Task<ActionResult> Register(RegisterViewModel model)
         {
-            if (ModelState.IsValid)
+            // Kiểm tra các trường bắt buộc
+            if (string.IsNullOrEmpty(model.Username))
             {
-                var user = new ApplicationUser { UserName = model.Username, FullName = model.Fullname, Email = model.Email, Role = "User" };
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
-                {
-                    await SignInAsync(user, isPersistent: false);
-                    return RedirectToAction("Index", "Home");
-                }
-                AddErrors(result);
+                TempData["RegisterMessage"] = "Vui lòng nhập tên đăng nhập.";
+                return View(model);
             }
+
+            if (string.IsNullOrEmpty(model.Email))
+            {
+                TempData["RegisterMessage"] = "Vui lòng nhập email.";
+                return View(model);
+            }
+
+            // Kiểm tra định dạng email
+            if (!new EmailAddressAttribute().IsValid(model.Email))
+            {
+                TempData["RegisterMessage"] = "Email không đúng định dạng.";
+                return View(model);
+            }
+
+            if (string.IsNullOrEmpty(model.Password))
+            {
+                TempData["RegisterMessage"] = "Vui lòng nhập mật khẩu.";
+                return View(model);
+            }
+
+            // Kiểm tra độ dài mật khẩu (tương tự Data Annotations trước đây)
+            if (model.Password.Length < 6)
+            {
+                TempData["RegisterMessage"] = "Mật khẩu phải từ 6 ký tự trở lên.";
+                return View(model);
+            }
+
+            // Tạo user mới
+            var user = new ApplicationUser { UserName = model.Username, FullName = model.Fullname, Email = model.Email, Role = "User" };
+            var result = await UserManager.CreateAsync(user, model.Password);
+            if (result.Succeeded)
+            {
+                await SignInAsync(user, isPersistent: false);
+                return RedirectToAction("Index", "Home");
+            }
+
+            // Nếu có lỗi từ Identity (như username hoặc email đã tồn tại)
+            TempData["RegisterMessage"] = result.Errors.FirstOrDefault() ?? "Đã có lỗi xảy ra khi đăng ký.";
             return View(model);
         }
 
@@ -70,7 +104,7 @@ namespace WebBanSach.Controllers
         [HttpPost]
         public async Task<ActionResult> Login(LoginViewModel model)
         {
-            if (!ModelState.IsValid)
+            if (string.IsNullOrEmpty(model.Username) || string.IsNullOrEmpty(model.Password))
             {
                 TempData["LoginMessage"] = "Vui lòng nhập đầy đủ thông tin.";
                 return View(model);
@@ -90,7 +124,7 @@ namespace WebBanSach.Controllers
             {
                 TempData["LoginMessage"] = "Mật khẩu không đúng.";
                 return View(model);
-            }   
+            }
 
             // Đăng nhập
             await SignInAsync(user, isPersistent: false);
@@ -102,13 +136,11 @@ namespace WebBanSach.Controllers
             }
             else
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Cart");
             }
         }
 
-
-
-        private async System.Threading.Tasks.Task SignInAsync(ApplicationUser user, bool isPersistent)
+        private async Task SignInAsync(ApplicationUser user, bool isPersistent)
         {
             var identity = await UserManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
             HttpContext.GetOwinContext().Authentication.SignIn(
@@ -122,12 +154,6 @@ namespace WebBanSach.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        private void AddErrors(IdentityResult result)
-        {
-            foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError("", error);
-            }
-        }
+       
     }
 }

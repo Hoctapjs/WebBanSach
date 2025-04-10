@@ -227,11 +227,16 @@
     <Compile Include="Migrations\202503220832544_AddRoleToUser.Designer.cs">
       <DependentUpon>202503220832544_AddRoleToUser.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202504051041304_InitialCreate1.cs" />
+    <Compile Include="Migrations\202504051041304_InitialCreate1.Designer.cs">
+      <DependentUpon>202504051041304_InitialCreate1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\Book.cs" />
     <Compile Include="Models\BookApiDbContext.cs" />
+    <Compile Include="Models\BookDetailViewModel.cs" />
     <Compile Include="Models\BookStoreDbContext.cs" />
     <Compile Include="Models\CartItem.cs" />
     <Compile Include="Models\Category.cs" />
@@ -241,13 +246,13 @@
     <Compile Include="Models\OrderDetail.cs" />
     <Compile Include="Models\RegisterViewModel.cs" />
     <Compile Include="Models\ShoppingCartItem.cs" />
-    <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\BookRepository.cs" />
     <Compile Include="Repositories\IBookRepository.cs" />
     <Compile Include="Services\BookService.cs" />
     <Compile Include="Services\IBookService.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Utils\Apriori.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
@@ -272,6 +277,15 @@
     <Content Include="Views\Admin\Books.cshtml" />
     <Content Include="Views\Admin\Users.cshtml" />
     <Content Include="Views\Admin\Orders.cshtml" />
+    <Content Include="Views\Admin\Delete_user.cshtml" />
+    <Content Include="Views\Admin\Edit_user.cshtml" />
+    <Content Include="Views\Admin\Create_book.cshtml" />
+    <Content Include="Views\Admin\Edit_book.cshtml" />
+    <Content Include="Views\Admin\Delete_book.cshtml" />
+    <Content Include="Views\Admin\Create_user.cshtml" />
+    <Content Include="Views\Admin\Create_order.cshtml" />
+    <Content Include="Views\Admin\Edit_order.cshtml" />
+    <Content Include="Views\Admin\Delete_order.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -292,6 +306,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202503220832544_AddRoleToUser.resx">
       <DependentUpon>202503220832544_AddRoleToUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202504051041304_InitialCreate1.resx">
+      <DependentUpon>202504051041304_InitialCreate1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

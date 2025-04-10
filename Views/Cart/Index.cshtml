@@ -41,6 +41,7 @@
     .btn-remove {
         color: #dc3545;
         text-decoration: none;
+        margin-right:14px;
     }
 
         .btn-remove:hover {
@@ -64,14 +65,21 @@
         font-size: 20px;
         color: #666;
     }
+
 </style>
 
 <div class="container py-4">
-    <h2>Your Cart</h2>
+
 
     @if (!Model.Any())
     {
-        <p class="empty-cart">Your cart is empty.</p>
+        <center style="margin-top:40px">
+            <img src="https://cdn0.fahasa.com/skin//frontend/ma_vanese/fahasa/images/checkout_cart/ico_emptycart.svg">
+            <p class="empty-cart">Your cart is empty.</p>
+            <a href="@Url.Action("Index", "Home")" class="btn btn-accent">Mua sắm ngay</a>
+
+        </center>
+       
     }
     else
     {
@@ -81,7 +89,7 @@
                     <th>Image</th>
                     <th>Book</th>
                     <th>Price</th>
-                    <th>Qty</th>
+                    <th>Quantity</th>
                     <th>Total</th>
                     <th></th>
                 </tr>
@@ -91,14 +99,16 @@
                 {
                     <tr>
                         <td>
-                            <img src="@item.ImageUrl" alt="Book Image" class="cart-image" />
+                            <a href="@Url.Action("Detail", "Book", new {id=item.BookId})"><img src="@item.ImageUrl" alt="Book Image" class="cart-image" /></a>
                         </td>
                         <td>@item.Title</td>
-                        <td>@String.Format("{0:N0}₫", item.Price)</td>
+                        <td>@String.Format("{0:N3}₫", item.Price)</td>
                         <td>@item.Quantity</td>
-                        <td>@String.Format("{0:N0}₫", item.Price * item.Quantity)</td>
+                        <td>@String.Format("{0:N3}₫", item.Price * item.Quantity)</td>
                         <td>
-                            @Html.ActionLink("Remove", "Remove", new { id = item.BookId }, new { @class = "btn-remove" })
+                            <a href="@Url.Action("Remove", "Cart", new { id = item.BookId })" class="btn-remove">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
                         </td>
                     </tr>
                 }
@@ -106,7 +116,7 @@
         </table>
 
         <div class="cart-summary">
-            Total: @String.Format("{0:N0}₫", Model.Sum(x => x.Price * x.Quantity))
+            Total: @String.Format("{0:N3}₫", Model.Sum(x => x.Price * x.Quantity))
         </div>
         <a href="@Url.Action("Checkout", "Order")" class="btn btn-primary btn-checkout">Proceed to Checkout</a>
     }

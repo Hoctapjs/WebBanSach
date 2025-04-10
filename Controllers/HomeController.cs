@@ -16,6 +16,7 @@ namespace WebBanSach.Controllers
         {
             var categories = db.Categories.ToList(); // phần categories
             var featuredBooks = db.Books.Take(4).ToList(); // phần Featured
+
             var popularBooks = db.Books.OrderByDescending(b => b.Stock).Take(8).ToList(); // phần Popular
             var specialBooks = db.Books.Where(b => b.Price < 40).Take(8).ToList(); // phần Offer
 

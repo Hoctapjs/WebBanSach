@@ -10,8 +10,8 @@
         <figcaption class="text-center">
             <h3>@Model.Title</h3>
             <span>@Model.Author</span>
-            <div class="item-price">@String.Format("{0:N0}₫", Model.Price)</div>
-            <a href="@Url.Action("AddToCart", "Cart", new { id = Model.Id })" class="add-to-cart btn btn-primary mt-2">
+            <div class="item-price">@String.Format("{0:N3}₫", Model.Price)</div>
+            <a href="#" class="add-to-cart btn btn-primary mt-2 add-to-cart-btn"  data-id="@Model.Id">
                 Add to Cart
             </a>
         </figcaption>

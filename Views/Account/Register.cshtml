@@ -5,23 +5,123 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<style>
+    .register-container {
+        max-width: 400px;
+        margin: 100px auto;
+        padding: 30px;
+        background-color: #fdfaf4;
+        border: 1px solid #e6decf;
+        border-radius: 10px;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        font-family: 'Georgia', serif;
+    }
 
-@using (Html.BeginForm("Register", "Account", FormMethod.Post))
-{
-    @Html.AntiForgeryToken()
-    @Html.LabelFor(m => m.Username)
-    @Html.TextBoxFor(m => m.Username)
-    <br />
-    @Html.LabelFor(m => m.Fullname)
-    @Html.TextBoxFor(m => m.Fullname)
-    <br />
-    @Html.LabelFor(m => m.Email)
-    @Html.TextBoxFor(m => m.Email)
-    <br />
-    @Html.LabelFor(m => m.Password)
-    @Html.PasswordFor(m => m.Password)
-    <br />
-    <button type="submit">Register</button>
-}
+        .register-container h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #5a4d36;
+            font-weight: bold;
+        }
 
+    .form-group {
+        margin-bottom: 20px;
+    }
 
+        .form-group label {
+            font-weight: bold;
+            color: #5a4d36;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #c1b69c;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+
+    .btn-register {
+        width: 100%;
+        padding: 10px;
+        background-color: #c5a992;
+        color: white;
+        font-weight: bold;
+        border: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+
+        .btn-register:hover {
+            background-color: #a8876a;
+        }
+
+    .register-footer {
+        text-align: center;
+        margin-top: 15px;
+    }
+
+        .register-footer a {
+            color: #5a4d36;
+            text-decoration: underline;
+        }
+
+    .message {
+        font-family: 'Times New Roman';
+    }
+
+    .alert-danger {
+        background-color: #fdfaf4;
+        border: 1px solid #dc3545;
+        color: #dc3545;
+        padding: 10px;
+        margin-bottom: 15px;
+        border-radius: 5px;
+        text-align: center;
+    }
+</style>
+
+<div class="register-container">
+    <h2>Register New Account</h2>
+
+    @if (TempData["RegisterMessage"] != null)
+    {
+        <div class="alert alert-danger text-center" style="margin-bottom: 15px;">
+            <span class="message">@TempData["RegisterMessage"]</span>
+        </div>
+    }
+
+    @using (Html.BeginForm("Register", "Account", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Username)
+            @Html.TextBoxFor(m => m.Username, new { @class = "form-control", placeholder = "Enter your username" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Fullname)
+            @Html.TextBoxFor(m => m.Fullname, new { @class = "form-control", placeholder = "Enter your full name" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Email)
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Enter your email" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Password)
+            @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Enter your password" })
+        </div>
+
+        <button type="submit" class="btn-register">Register</button>
+    }
+
+    <div class="register-footer">
+        Already have an account?
+        <a href="@Url.Action("Login", "Account")">Login here</a>
+    </div>
+</div>

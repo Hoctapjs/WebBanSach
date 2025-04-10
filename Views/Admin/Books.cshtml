@@ -1,34 +1,327 @@
 ﻿@model List<WebBanSach.Models.Book>
 
 @{
-    ViewBag.Title = "Books";
+    ViewBag.Title = "Quản lý sách";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
-@{
-    ViewBag.Title = "Quản lý sách";
-}
-
-<h2>Danh sách sách</h2>
-
-<table class="table">
-    <tr>
-        <th>Tiêu đề</th>
-        <th>Tác giả</th>
-        <th>Giá</th>
-        <th>Thể loại</th>
-    </tr>
-
-    @foreach (var book in Model)
-    {
-        <tr>
-            <td>@book.Title</td>
-            <td>@book.Author</td>
-            <td>@String.Format("{0:N0}₫", book.Price)</td>
-            <td>@book.Category.Name</td>
-        </tr>
+<style>
+    /* CSS cơ bản cho giao diện */
+    .admin-container {
+        display: flex;
+        min-height: 100vh;
     }
-</table>
 
+    .admin-sidebar {
+        width: 250px;
+        background-color: #343a40;
+        color: #fff;
+        padding: 20px;
+        flex-shrink: 0;
+        transition: transform 0.3s ease;
+    }
 
+        .admin-sidebar h3 {
+            color: #ffc107;
+            margin-bottom: 20px;
+            font-size: 22px;
+        }
+
+        .admin-sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+            .admin-sidebar ul li {
+                margin: 15px 0;
+            }
+
+                .admin-sidebar ul li a {
+                    color: #fff;
+                    text-decoration: none;
+                    padding: 8px 12px;
+                    display: block;
+                    border-radius: 4px;
+                    transition: all 0.3s ease;
+                }
+
+                    .admin-sidebar ul li a:hover,
+                    .admin-sidebar ul li a.active {
+                        background-color: #495057;
+                        color: #ffc107;
+                    }
+
+    .admin-main-content {
+        flex: 1;
+        padding: 30px;
+        background-color: #f1f3f5;
+    }
+
+        .admin-main-content h2 {
+            margin-bottom: 30px;
+            color: #343a40;
+            font-size: 28px;
+        }
+
+    /* Thêm container cho bảng */
+    .table-container {
+        max-height: 500px; /* Chiều cao tối đa trước khi xuất hiện thanh cuộn */
+        overflow-y: auto; /* Thanh cuộn dọc */
+        overflow-x: auto; /* Thanh cuộn ngang nếu cần */
+        border-radius: 8px; /* Giữ bo góc cho đồng bộ */
+    }
+
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: #fff;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+        .table th {
+            background-color: #f3f2ec;
+            color: #000;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            position: sticky; /* Giữ header cố định khi cuộn */
+            top: 0; /* Đặt header ở trên cùng */
+            z-index: 1; /* Đảm bảo header nằm trên các dòng */
+        }
+
+        .table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+            color: #333;
+        }
+
+        .table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        .table tr:hover {
+            background-color: #f1f3f5;
+            transition: background-color 0.3s ease;
+        }
+
+        .table th:first-child,
+        .table td:first-child {
+            padding-left: 20px;
+        }
+
+    .price {
+        font-weight: 500;
+        color: #28a745;
+    }
+
+    /* Đảm bảo hình ảnh không vượt quá ô */
+    .table img {
+        max-width: 100px;
+        height: auto;
+        display: block;
+    }
+
+    /* Hamburger menu cho mobile */
+    .hamburger-menu {
+        display: none;
+        font-size: 24px;
+        color: #343a40;
+        cursor: pointer;
+        padding: 10px;
+        background-color: #f1f3f5;
+        border-bottom: 1px solid #dee2e6;
+    }
+
+    /* Overlay khi sidebar mở */
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+    }
+
+        .sidebar-overlay.active {
+            display: block;
+        }
+
+    /* Responsive CSS */
+    @@media (max-width: 768px) {
+        .admin-container {
+            flex-direction: column;
+        }
+
+        .admin-sidebar {
+            width: 250px; /* Giảm chiều rộng để không chiếm hết màn hình */
+            transform: translateX(-100%);
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            z-index: 1000;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+        }
+
+            .admin-sidebar.active {
+                transform: translateX(0);
+            }
+
+        .admin-main-content {
+            padding: 15px;
+        }
+
+            .admin-main-content h2 {
+                font-size: 24px;
+                margin-bottom: 20px;
+            }
+
+        .table-container {
+            max-height: 400px; /* Giảm chiều cao trên mobile */
+        }
+
+        .table th,
+        .table td {
+            padding: 10px;
+            font-size: 13px;
+        }
+
+            .table th:first-child,
+            .table td:first-child {
+                padding-left: 15px;
+            }
+
+        .table img {
+            max-width: 80px; /* Giảm kích thước hình ảnh trên mobile */
+        }
+
+        .price {
+            font-size: 13px;
+        }
+
+        .hamburger-menu {
+            display: block;
+        }
+    }
+
+    @@media (max-width: 375px) {
+        .admin-main-content {
+            padding: 10px;
+        }
+
+            .admin-main-content h2 {
+                font-size: 20px;
+            }
+
+        .table-container {
+            max-height: 350px;
+        }
+
+        .table th,
+        .table td {
+            padding: 8px;
+            font-size: 12px;
+        }
+
+            .table th:first-child,
+            .table td:first-child {
+                padding-left: 10px;
+            }
+
+        .table img {
+            max-width: 60px;
+        }
+
+        .price {
+            font-size: 12px;
+        }
+    }
+</style>
+
+<script>
+    // JavaScript để toggle sidebar trên mobile
+    document.addEventListener('DOMContentLoaded', function () {
+        const hamburgerMenu = document.querySelector('.hamburger-menu');
+        const sidebar = document.querySelector('.admin-sidebar');
+        const overlay = document.querySelector('.sidebar-overlay');
+
+        hamburgerMenu.addEventListener('click', function () {
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+        });
+
+        // Đóng sidebar khi click vào overlay
+        overlay.addEventListener('click', function () {
+            sidebar.classList.remove('active');
+            overlay.classList.remove('active');
+        });
+    });
+</script>
+
+<div class="hamburger-menu">
+    ☰
+</div>
+
+<div class="sidebar-overlay"></div>
+
+<div class="admin-container">
+    <!-- Sidebar -->
+    <div class="admin-sidebar">
+        <h3>Admin Panel</h3>
+        <ul>
+            <li><a href="@Url.Action("Index", "Admin")">Dashboard</a></li>
+            <li><a href="@Url.Action("Books", "Admin")">Quản lý sách</a></li>
+            <li><a href="@Url.Action("Users", "Admin")">Quản lý người dùng</a></li>
+            <li><a href="@Url.Action("Orders", "Admin")">Quản lý đơn hàng</a></li>
+        </ul>
+    </div>
+
+    <!-- Main content -->
+    <div class="admin-main-content">
+        <h2>Danh sách sách</h2>
+
+        <a class="btn btn-accent" href="@Url.Action("Create_book", "Admin")">Create a new book</a>
+        <br />  <br />
+        <!-- Bọc bảng trong div có thanh cuộn -->
+        <div class="table-container">
+            <table class="table">
+                <tr>
+                    <th>Id</th>
+                    <th>Hình</th>
+                    <th>Tiêu đề</th>
+                    <th>Mô tả</th>
+                    <th>Tác giả</th>
+                    <th>Giá</th>
+                    <th>Thể loại</th>
+                    <th style="text-align:center">Chức năng</th>
+                </tr>
+
+                @foreach (var book in Model)
+                {
+                    <tr>
+                        <td>@book.Id</td>
+                        <td>
+                            <img src="@book.ImageUrl" alt="@book.Title" />
+                        </td>
+                        <td>@book.Title</td>
+                        <td>@book.Description</td>
+                        <td>@book.Author</td>
+                        <td class="price">@String.Format("{0:N3}₫", book.Price)</td>
+                        <td>@book.Category.Name</td>
+                        <td style="text-align:center">
+                            <a style="margin-right:10px" href="@Url.Action("Delete_book", "Admin", new {id=book.Id})">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+                            <a href="@Url.Action("Edit_book", "Admin", new {id=book.Id})">
+                                <i class="fas fa-pen-alt"></i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+</div>
