@@ -1,0 +1,15 @@
+{
+  "name": "webbansach",
+  "version": "1.0.0",
+  "description": "data mẫu trong bookstore_all_table_data.sql,\r ae có thể chạy file trên để tạo database mẫu, và nếu muốn phát triển các tính năng về dữ liệu thì ae tìm hiểu và chạy migration cho project nhé",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "cypress": "^14.2.1"
+  }
+}
