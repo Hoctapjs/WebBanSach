@@ -11,5 +11,7 @@ namespace WebBanSach.Models
         public List<Book> PopularBooks { get; set; }
         public List<Book> SpecialOfferBooks { get; set; }
         public List<Category> Categories { get; set; }
+        public List<Book> All_Books { get; set; }
+
     }
 }

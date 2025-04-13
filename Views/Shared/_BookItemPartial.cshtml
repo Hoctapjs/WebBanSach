@@ -4,14 +4,15 @@
     <div class="product-item">
         <figure class="product-style">
             <a href="@Url.Action("Detail", "Book", new { id = Model.Id })">
-                <img src="@Model.ImageUrl" alt="@Model.Title" class="book-image" />
+                <img src="@Model.ImageUrl" alt="@Model.Title" class="book-image" onerror="this.onerror=null;this.src='/Asset/images/DefaultBook.png';"
+                     onload="if(this.naturalWidth < 50 || this.naturalHeight < 50){this.src='/Asset/images/DefaultBook.png';}" alt="@Model.Title" />
             </a>
         </figure>
         <figcaption class="text-center">
             <h3>@Model.Title</h3>
             <span>@Model.Author</span>
             <div class="item-price">@String.Format("{0:N3}₫", Model.Price)</div>
-            <a href="#" class="add-to-cart btn btn-primary mt-2 add-to-cart-btn"  data-id="@Model.Id">
+            <a href="#" class="add-to-cart btn btn-primary mt-2 add-to-cart-btn" data-id="@Model.Id">
                 Add to Cart
             </a>
         </figcaption>

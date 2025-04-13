@@ -186,7 +186,7 @@
             {
                 <div id="category-@category.Id" data-tab-content>
                     <div class="row">
-                        @foreach (var book in Model.PopularBooks.Where(b => b.CategoryId == category.Id))
+                        @foreach (var book in Model.All_Books.Take(100).Where(b => b.CategoryId == category.Id))
                         {
                             @Html.Partial("_BookItemPartial", book)
                         }
