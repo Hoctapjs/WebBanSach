@@ -142,15 +142,8 @@
     <Content Include="Asset\icomoon\fonts\icomoon.svg" />
     <Content Include="Asset\icomoon\icomoon.css" />
     <Content Include="Asset\icomoon\Read Me.txt" />
-    <Content Include="Asset\images\2d8dd68f-f875-4860-9476-2a6c91ad923e.jpg" />
-    <Content Include="Asset\images\646c59a0-9084-4e1b-ab9c-80177271078b.jpg" />
-    <Content Include="Asset\images\71cf2c1c-fc8a-43fa-aa43-ba7e56453fab.jpg" />
-    <Content Include="Asset\images\aac01248-6f81-45cf-8a33-4510fa657075.jpg" />
-    <Content Include="Asset\images\ae87c33b-490c-4173-b640-52eaf41fbfed.jpg" />
     <Content Include="Asset\images\app-store.jpg" />
-    <Content Include="Asset\images\Artificial Intelligence Basics.jpg" />
-    <Content Include="Asset\images\Attack on Titan Vol 1.jpg" />
-    <Content Include="Asset\images\Business Growth Hacks.jpg" />
+    <Content Include="Asset\images\chatboticon.png" />
     <Content Include="Asset\images\chocolat\close.png" />
     <Content Include="Asset\images\chocolat\fullscreen-black.png" />
     <Content Include="Asset\images\chocolat\fullscreen.png" />
@@ -162,30 +155,20 @@
     <Content Include="Asset\images\client-image3.png" />
     <Content Include="Asset\images\client-image4.png" />
     <Content Include="Asset\images\client-image5.png" />
-    <Content Include="Asset\images\Cooking with Love.jpg" />
     <Content Include="Asset\images\curly-divider.svg" />
     <Content Include="Asset\images\default.png" />
-    <Content Include="Asset\images\DefaultBook.png" />
-    <Content Include="Asset\images\Demon Slayer Vol 1.jpg" />
     <Content Include="Asset\images\device.png" />
-    <Content Include="Asset\images\Dragon Ball Vol 1.jpg" />
-    <Content Include="Asset\images\gojo.png" />
     <Content Include="Asset\images\google-play.jpg" />
-    <Content Include="Asset\images\image-removebg-preview.png" />
     <Content Include="Asset\images\item.png" />
     <Content Include="Asset\images\item1.png" />
     <Content Include="Asset\images\item3.png" />
     <Content Include="Asset\images\item4.png" />
     <Content Include="Asset\images\item5.png" />
     <Content Include="Asset\images\leaf.png" />
-    <Content Include="Asset\images\Love in Paris.jpg" />
     <Content Include="Asset\images\main-banner1.jpg" />
     <Content Include="Asset\images\main-banner2.jpg" />
     <Content Include="Asset\images\main-logo.png" />
-    <Content Include="Asset\images\Mystery at Midnight.jpg" />
-    <Content Include="Asset\images\Naruto Vol 1.jpg" />
     <Content Include="Asset\images\ns-arrow-right.svg" />
-    <Content Include="Asset\images\One Piece Vol 1.jpg" />
     <Content Include="Asset\images\pattern1.png" />
     <Content Include="Asset\images\pattern2.png" />
     <Content Include="Asset\images\post-img1.jpg" />
@@ -208,8 +191,6 @@
     <Content Include="Asset\images\tab-item6.jpg" />
     <Content Include="Asset\images\tab-item7.jpg" />
     <Content Include="Asset\images\tab-item8.jpg" />
-    <Content Include="Asset\images\The Great Adventure.jpg" />
-    <Content Include="Asset\images\The Science of Everything.jpg" />
     <Content Include="Asset\js\jquery-1.11.0.min.js" />
     <Content Include="Asset\js\modernizr.js" />
     <Content Include="Asset\js\plugins.js" />
@@ -251,9 +232,9 @@
     <Compile Include="Migrations\202504051041304_InitialCreate1.Designer.cs">
       <DependentUpon>202504051041304_InitialCreate1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202504120910422_them_vao_isbn.cs" />
-    <Compile Include="Migrations\202504120910422_them_vao_isbn.Designer.cs">
-      <DependentUpon>202504120910422_them_vao_isbn.cs</DependentUpon>
+    <Compile Include="Migrations\202504131421548_sync_model_fix.cs" />
+    <Compile Include="Migrations\202504131421548_sync_model_fix.designer.cs">
+      <DependentUpon>202504131421548_sync_model_fix.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
@@ -334,8 +315,8 @@
     <EmbeddedResource Include="Migrations\202504051041304_InitialCreate1.resx">
       <DependentUpon>202504051041304_InitialCreate1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202504120910422_them_vao_isbn.resx">
-      <DependentUpon>202504120910422_them_vao_isbn.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202504131421548_sync_model_fix.resx">
+      <DependentUpon>202504131421548_sync_model_fix.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
@@ -379,10 +360,4 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <Target Name="EnsureRoslynFilesCopiedToOutputDirectory" AfterTargets="Build">
-    <ItemGroup>
-      <RoslynFiles Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\roslyn\**\*.*" />
-    </ItemGroup>
-    <Copy SourceFiles="@(RoslynFiles)" DestinationFolder="$(OutDir)roslyn\%(RecursiveDir)" SkipUnchangedFiles="true" />
-  </Target>
 </Project>
