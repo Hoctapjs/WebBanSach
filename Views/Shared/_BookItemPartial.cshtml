@@ -1,17 +1,20 @@
 ﻿@model WebBanSach.Models.Book
 
-<div class="col-md-3">
-    <div class="product-item">
-        <figure class="product-style">
+<div class="col-md-3 d-flex align-items-stretch">
+    <div class="product-item w-100 d-flex flex-column">
+        <figure class="product-style" style="height: 300px; overflow: hidden; display: flex; align-items: center; justify-content: center;">
             <a href="@Url.Action("Detail", "Book", new { id = Model.Id })">
-                <img src="@Model.ImageUrl" alt="@Model.Title" class="book-image" onerror="this.onerror=null;this.src='/Asset/images/DefaultBook.png';"
-                     onload="if(this.naturalWidth < 50 || this.naturalHeight < 50){this.src='/Asset/images/DefaultBook.png';}" alt="@Model.Title" />
+                <img src="@Model.ImageUrl"
+                     alt="@Model.Title"
+                     class="book-image"
+                     onerror="this.onerror=null;this.src='/Asset/images/DefaultBook.png';"
+                     onload="if(this.naturalWidth < 50 || this.naturalHeight < 50){this.src='/Asset/images/DefaultBook.png';}" />
             </a>
         </figure>
-        <figcaption class="text-center">
-            <h3>@Model.Title</h3>
-            <span>@Model.Author</span>
-            <div class="item-price">@String.Format("{0:N3}₫", Model.Price)</div>
+        <figcaption class="text-center mt-auto">
+            <h3 class="text-truncate" title="@Model.Title">@Model.Title</h3>
+            <span class="text-muted">@Model.Author</span>
+            <div class="item-price">@String.Format("{0:N1}₫", Model.Price)</div>
             <a href="#" class="add-to-cart btn btn-primary mt-2 add-to-cart-btn" data-id="@Model.Id">
                 Add to Cart
             </a>

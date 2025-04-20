@@ -157,6 +157,7 @@
     <Content Include="Asset\images\client-image5.png" />
     <Content Include="Asset\images\curly-divider.svg" />
     <Content Include="Asset\images\default.png" />
+    <Content Include="Asset\images\DefaultBook.png" />
     <Content Include="Asset\images\device.png" />
     <Content Include="Asset\images\google-play.jpg" />
     <Content Include="Asset\images\item.png" />

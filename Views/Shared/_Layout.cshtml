@@ -24,6 +24,7 @@
             color: var(--body-text-color);
             background-color: var(--light-color) !important;
         }
+
         .swal2-custom-popup {
             background-color: #000 !important;
             color: #fff !important;
@@ -42,13 +43,13 @@
             border-color: #28a745 !important;
         }
 
-        .swal2-icon.swal2-success [class^='swal2-success-line'] {
-            background-color: #28a745 !important;
-        }
+            .swal2-icon.swal2-success [class^='swal2-success-line'] {
+                background-color: #28a745 !important;
+            }
 
-        .swal2-icon.swal2-success .swal2-success-ring {
-            border-color: rgba(40, 167, 69, 0.2) !important;
-        }
+            .swal2-icon.swal2-success .swal2-success-ring {
+                border-color: rgba(40, 167, 69, 0.2) !important;
+            }
 
         /*Style Chat bot*/
         /* Icon Chatbot */
@@ -71,9 +72,9 @@
             transition: transform 0.3s ease;
         }
 
-        #chat-icon:hover {
-            transform: scale(1.1);
-        }
+            #chat-icon:hover {
+                transform: scale(1.1);
+            }
 
         /* Widget chat ẩn ban đầu */
         #chat-widget {
@@ -116,34 +117,34 @@
             background-color: #fff;
         }
 
-        .chat-input input {
-            flex: 1;
-            border: 1px solid #ced4da;
-            border-radius: 5px;
-            padding: 8px 12px;
-            font-size: 14px;
-        }
+            .chat-input input {
+                flex: 1;
+                border: 1px solid #ced4da;
+                border-radius: 5px;
+                padding: 8px 12px;
+                font-size: 14px;
+            }
 
-        .chat-input button {
-            margin-left: 10px;
-            font-size: 14px;
-        }
+            .chat-input button {
+                margin-left: 10px;
+                font-size: 14px;
+            }
 
         .chat-message {
             margin-bottom: 12px;
         }
 
-        .chat-message.user-message {
-            margin-bottom: 12px;
-            background-color: #E9ECEF;
-            padding: 10px;
-            border-radius: 8px;
-            position: relative;
-            width: 90%;
-            right: -30px;
-            top: 0;
-            text-align: left;
-        }
+            .chat-message.user-message {
+                margin-bottom: 12px;
+                background-color: #E9ECEF;
+                padding: 10px;
+                border-radius: 8px;
+                position: relative;
+                width: 90%;
+                right: -30px;
+                top: 0;
+                text-align: left;
+            }
 
         .user-message {
             text-align: right;
@@ -156,13 +157,13 @@
             color: #212529;
         }
 
-        .bot-message .markdown {
-            background-color: #e9ecef;
-            border-radius: 8px;
-            padding: 10px;
-            margin-top: 4px;
-            font-size: 14px;
-        }
+            .bot-message .markdown {
+                background-color: #e9ecef;
+                border-radius: 8px;
+                padding: 10px;
+                margin-top: 4px;
+                font-size: 14px;
+            }
 
         pre {
             background: #343a40;
@@ -182,6 +183,11 @@
 </head>
 
 <body data-bs-spy="scroll" data-bs-target="#header" tabindex="0">
+    @{
+        string currentController = ViewContext.RouteData.Values["controller"].ToString();
+        string currentAction = ViewContext.RouteData.Values["action"].ToString();
+        bool hideHeader = currentController == "Admin";
+    }
 
     <div id="header-wrap">
         <div class="top-content">
@@ -242,214 +248,220 @@
             </div>
         </div>
 
-        <header id="header">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-2">
-                        <div class="main-logo">
-                            <a href="@Url.Action("Index", "Home")"><img src="~/Asset/images/main-logo.png" alt="logo"></a>
+        @if (!hideHeader)
+        {
+            <header id="header">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="main-logo">
+                                <a href="@Url.Action("Index", "Home")"><img src="~/Asset/images/main-logo.png" alt="logo"></a>
+                            </div>
+                        </div>
+                        <div class="col-md-10">
+                            <nav id="navbar">
+                                <div class="main-menu stellarnav">
+                                    <ul class="menu-list">
+                                        <li class="menu-item active"><a href="@Url.Action("Index", "Home")">Home</a></li>
+                                        <li class="menu-item has-sub">
+                                            <a href="#pages" class="nav-link">Pages</a>
+                                            <ul>
+                                                <li class="active"><a href="@Url.Action("Index", "Home")">Home</a></li>
+                                                <li><a href="@Url.Action("Index", "Home")">About</a></li>
+                                                <li><a href="@Url.Action("Index", "Home")">Styles</a></li>
+                                                <li><a href="@Url.Action("Index", "Home")">Blog</a></li>
+                                                <li><a href="@Url.Action("Index", "Home")">Post Single</a></li>
+                                                <li><a href="@Url.Action("Index", "Home")">Our Store</a></li>
+                                                <li><a href="@Url.Action("Index", "Home")">Product Single</a></li>
+                                                <li><a href="@Url.Action("Index", "Home")">Contact</a></li>
+                                                <li><a href="@Url.Action("Index", "Home")">Thank You</a></li>
+                                                <li><a href="@Url.Action("Index", "Admin")">Admin</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="menu-item"><a href="#featured-books" class="nav-link">Featured</a></li>
+                                        <li class="menu-item"><a href="#popular-books" class="nav-link">Popular</a></li>
+                                        <li class="menu-item"><a href="#special-offer" class="nav-link">Offer</a></li>
+                                        <li class="menu-item"><a href="#latest-blog" class="nav-link">Articles</a></li>
+                                        <li class="menu-item"><a href="#download-app" class="nav-link">Download App</a></li>
+                                    </ul>
+                                    <div class="hamburger">
+                                        <span class="bar"></span>
+                                        <span class="bar"></span>
+                                        <span class="bar"></span>
+                                    </div>
+                                </div>
+                            </nav>
                         </div>
                     </div>
-                    <div class="col-md-10">
-                        <nav id="navbar">
-                            <div class="main-menu stellarnav">
-                                <ul class="menu-list">
-                                    <li class="menu-item active"><a href="@Url.Action("Index", "Home")">Home</a></li>
-                                    <li class="menu-item has-sub">
-                                        <a href="#pages" class="nav-link">Pages</a>
-                                        <ul>
-                                            <li class="active"><a href="@Url.Action("Index", "Home")">Home</a></li>
-                                            <li><a href="@Url.Action("Index", "Home")">About</a></li>
-                                            <li><a href="@Url.Action("Index", "Home")">Styles</a></li>
-                                            <li><a href="@Url.Action("Index", "Home")">Blog</a></li>
-                                            <li><a href="@Url.Action("Index", "Home")">Post Single</a></li>
-                                            <li><a href="@Url.Action("Index", "Home")">Our Store</a></li>
-                                            <li><a href="@Url.Action("Index", "Home")">Product Single</a></li>
-                                            <li><a href="@Url.Action("Index", "Home")">Contact</a></li>
-                                            <li><a href="@Url.Action("Index", "Home")">Thank You</a></li>
-                                            <li><a href="@Url.Action("Index", "Admin")">Admin</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="menu-item"><a href="#featured-books" class="nav-link">Featured</a></li>
-                                    <li class="menu-item"><a href="#popular-books" class="nav-link">Popular</a></li>
-                                    <li class="menu-item"><a href="#special-offer" class="nav-link">Offer</a></li>
-                                    <li class="menu-item"><a href="#latest-blog" class="nav-link">Articles</a></li>
-                                    <li class="menu-item"><a href="#download-app" class="nav-link">Download App</a></li>
-                                </ul>
-                                <div class="hamburger">
-                                    <span class="bar"></span>
-                                    <span class="bar"></span>
-                                    <span class="bar"></span>
-                                </div>
-                            </div>
-                        </nav>
-                    </div>
                 </div>
-            </div>
-        </header>
+            </header>
+        }
+
     </div>
+
 
     @RenderBody()
 
-<div class="api_chatbot">
-    <!-- Icon bật/tắt -->
-    <div id="chat-icon" onclick="toggleChat()">💬</div>
+    @if (!hideHeader)
+    {
+        <div class="api_chatbot">
+            <!-- Icon bật/tắt -->
+            <div id="chat-icon" onclick="toggleChat()">💬</div>
 
-    <!-- Hộp Chat -->
-    <div id="chat-widget">
-        <div class="chat-header">
-            💬 Tư vấn sách - Chatbot
-        </div>
-        <div id="chat" class="chat-box"></div>
-        <div class="chat-input">
-            <input type="text" id="message" placeholder="Nhập nội dung..."
-                   onkeydown="if(event.key==='Enter') sendMessage()">
-            <button class="btn btn-primary" onclick="sendMessage()">Gửi</button>
-        </div>
-    </div>
+            <!-- Hộp Chat -->
+            <div id="chat-widget">
+                <div class="chat-header">
+                    💬 Tư vấn sách - Chatbot
+                </div>
+                <div id="chat" class="chat-box"></div>
+                <div class="chat-input">
+                    <input type="text" id="message" placeholder="Nhập nội dung..."
+                           onkeydown="if(event.key==='Enter') sendMessage()">
+                    <button class="btn btn-primary" onclick="sendMessage()">Gửi</button>
+                </div>
+            </div>
 
-    <script>
-        function toggleChat() {
-            const chatWidget = document.getElementById("chat-widget");
-            if (chatWidget.style.display === "none" || chatWidget.style.display === "") {
-                chatWidget.style.display = "flex";
-            } else {
-                chatWidget.style.display = "none";
-            }
-        }
-
-        async function sendMessage() {
-            const input = document.getElementById("message");
-            const message = input.value.trim();
-            const chatBox = document.getElementById("chat");
-
-            if (!message) return;
-
-            chatBox.innerHTML += `<div class="chat-message user-message">${message}</div>`;
-            input.value = "";
-
-            try {
-                const res = await fetch("http://127.0.0.1:5000/ask", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ message })
-                });
-
-                if (!res.ok) {
-                    throw new Error(`HTTP error! Status: ${res.status}`);
+            <script>
+                function toggleChat() {
+                    const chatWidget = document.getElementById("chat-widget");
+                    if (chatWidget.style.display === "none" || chatWidget.style.display === "") {
+                        chatWidget.style.display = "flex";
+                    } else {
+                        chatWidget.style.display = "none";
+                    }
                 }
 
-                const data = await res.json();
-                const replyMarkdown = data.reply;
-                const replyHTML = marked.parse(replyMarkdown);
+                async function sendMessage() {
+                    const input = document.getElementById("message");
+                    const message = input.value.trim();
+                    const chatBox = document.getElementById("chat");
 
-                chatBox.innerHTML += `
-                    <div class="chat-message bot-message">
-                        <img src="/Asset/images/chatboticon.png" alt="Chatbot Icon" style="width: 36px; height: 36px; vertical-align: middle; margin-right: 5px;">
-                        <div class="markdown">${replyHTML}</div>
-                        <div class="text-muted small mt-2">
-                            <i>Token sử dụng: Input = ${data.tokens.input_tokens}, Cached = ${data.tokens.cached_tokens}, Output = ${data.tokens.output_tokens}, Tổng = ${data.tokens.total_tokens}</i>
+                    if (!message) return;
+
+                    chatBox.innerHTML += `<div class="chat-message user-message">${message}</div>`;
+                    input.value = "";
+
+                    try {
+                        const res = await fetch("http://127.0.0.1:5000/ask", {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({ message })
+                        });
+
+                        if (!res.ok) {
+                            throw new Error(`HTTP error! Status: ${res.status}`);
+                        }
+
+                        const data = await res.json();
+                        const replyMarkdown = data.reply;
+                        const replyHTML = marked.parse(replyMarkdown);
+
+                        chatBox.innerHTML += `
+                                                                                                                <div class="chat-message bot-message">
+                                                                                                                    <img src="/Asset/images/chatboticon.png" alt="Chatbot Icon" style="width: 36px; height: 36px; vertical-align: middle; margin-right: 5px;">
+                                                                                                                    <div class="markdown">${replyHTML}</div>
+                                                                                                                    <div class="text-muted small mt-2">
+                                                                                                                        <i>Token sử dụng: Input = ${data.tokens.input_tokens}, Cached = ${data.tokens.cached_tokens}, Output = ${data.tokens.output_tokens}, Tổng = ${data.tokens.total_tokens}</i>
+                                                                                                                    </div>
+                                                                                                                </div>`;
+
+                        chatBox.scrollTop = chatBox.scrollHeight;
+                    }
+                    catch {
+                        console.error("Error fetching API:", error);
+                        chatBox.innerHTML += `<div class="chat-message bot-message text-danger">Lỗi: Không thể kết nối đến API. ${error.message}</div>`;
+                        chatBox.scrollTop = chatBox.scrollHeight;
+                    }
+                }
+            </script>
+        </div>
+    }
+
+    @if (!hideHeader)
+    {
+        <footer id="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="footer-item">
+                            <div class="company-brand">
+                                <img src="~/Asset/images/main-logo.png" alt="logo" class="footer-logo">
+                                <p>
+                                    BookSaw is your trusted destination to discover inspiring books, insightful stories, and timeless knowledge. We connect readers with books that matter—whether you're looking to grow, escape, or simply enjoy the magic of words.
+                                </p>
+                            </div>
                         </div>
-                    </div>`;
-
-                chatBox.scrollTop = chatBox.scrollHeight;
-            }
-            catch {
-                console.error("Error fetching API:", error);
-                chatBox.innerHTML += `<div class="chat-message bot-message text-danger">Lỗi: Không thể kết nối đến API. ${error.message}</div>`;
-                chatBox.scrollTop = chatBox.scrollHeight;
-            }
-           
-
-            
-        }
-    </script>
-</div>
-
-    <footer id="footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="footer-item">
-                        <div class="company-brand">
-                            <img src="~/Asset/images/main-logo.png" alt="logo" class="footer-logo">
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sagittis sed ptibus liberolectus
-                                nonet psryroin. Amet sed lorem posuere sit iaculis amet, ac urna. Adipiscing fames
-                                semper erat ac in suspendisse iaculis.
-                            </p>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="footer-menu">
+                            <h5>About Us</h5>
+                            <ul class="menu-list">
+                                <li class="menu-item"><a href="#">vision</a></li>
+                                <li class="menu-item"><a href="#">articles</a></li>
+                                <li class="menu-item"><a href="#">careers</a></li>
+                                <li class="menu-item"><a href="#">service terms</a></li>
+                                <li class="menu-item"><a href="#">donate</a></li>
+                            </ul>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="footer-menu">
-                        <h5>About Us</h5>
-                        <ul class="menu-list">
-                            <li class="menu-item"><a href="#">vision</a></li>
-                            <li class="menu-item"><a href="#">articles</a></li>
-                            <li class="menu-item"><a href="#">careers</a></li>
-                            <li class="menu-item"><a href="#">service terms</a></li>
-                            <li class="menu-item"><a href="#">donate</a></li>
-                        </ul>
+                    <div class="col-md-2">
+                        <div class="footer-menu">
+                            <h5>Discover</h5>
+                            <ul class="menu-list">
+                                <li class="menu-item"><a href="#">Home</a></li>
+                                <li class="menu-item"><a href="#">Books</a></li>
+                                <li class="menu-item"><a href="#">Authors</a></li>
+                                <li class="menu-item"><a href="#">Subjects</a></li>
+                                <li class="menu-item"><a href="#">Advanced Search</a></li>
+                            </ul>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="footer-menu">
-                        <h5>Discover</h5>
-                        <ul class="menu-list">
-                            <li class="menu-item"><a href="#">Home</a></li>
-                            <li class="menu-item"><a href="#">Books</a></li>
-                            <li class="menu-item"><a href="#">Authors</a></li>
-                            <li class="menu-item"><a href="#">Subjects</a></li>
-                            <li class="menu-item"><a href="#">Advanced Search</a></li>
-                        </ul>
+                    <div class="col-md-2">
+                        <div class="footer-menu">
+                            <h5>My account</h5>
+                            <ul class="menu-list">
+                                <li class="menu-item"><a href="#">Sign In</a></li>
+                                <li class="menu-item"><a href="#">View Cart</a></li>
+                                <li class="menu-item"><a href="#">My Wishtlist</a></li>
+                                <li class="menu-item"><a href="#">Track My Order</a></li>
+                            </ul>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="footer-menu">
-                        <h5>My account</h5>
-                        <ul class="menu-list">
-                            <li class="menu-item"><a href="#">Sign In</a></li>
-                            <li class="menu-item"><a href="#">View Cart</a></li>
-                            <li class="menu-item"><a href="#">My Wishtlist</a></li>
-                            <li class="menu-item"><a href="#">Track My Order</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="footer-menu">
-                        <h5>Help</h5>
-                        <ul class="menu-list">
-                            <li class="menu-item"><a href="#">Help center</a></li>
-                            <li class="menu-item"><a href="#">Report a problem</a></li>
-                            <li class="menu-item"><a href="#">Suggesting edits</a></li>
-                            <li class="menu-item"><a href="#">Contact us</a></li>
-                        </ul>
+                    <div class="col-md-2">
+                        <div class="footer-menu">
+                            <h5>Help</h5>
+                            <ul class="menu-list">
+                                <li class="menu-item"><a href="#">Help center</a></li>
+                                <li class="menu-item"><a href="#">Report a problem</a></li>
+                                <li class="menu-item"><a href="#">Suggesting edits</a></li>
+                                <li class="menu-item"><a href="#">Contact us</a></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </footer>
+        </footer>
 
-    <div id="footer-bottom">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="copyright">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <p>
-                                    © 2022 All rights reserved. Free HTML Template by <a href="https://www.templatesjungle.com/" target="_blank">TemplatesJungle</a>
-                                </p>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="social-links align-right">
-                                    <ul>
-                                        <li><a href="#"><i class="icon icon-facebook"></i></a></li>
-                                        <li><a href="#"><i class="icon icon-twitter"></i></a></li>
-                                        <li><a href="#"><i class="icon icon-youtube-play"></i></a></li>
-                                        <li><a href="#"><i class="icon icon-behance-square"></i></a></li>
-                                    </ul>
+        <div id="footer-bottom">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="copyright">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <p>
+                                        © 2022 All rights reserved. Free HTML Template by <a href="https://www.templatesjungle.com/" target="_blank">TemplatesJungle</a>
+                                    </p>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="social-links align-right">
+                                        <ul>
+                                            <li><a href="#"><i class="icon icon-facebook"></i></a></li>
+                                            <li><a href="#"><i class="icon icon-twitter"></i></a></li>
+                                            <li><a href="#"><i class="icon icon-youtube-play"></i></a></li>
+                                            <li><a href="#"><i class="icon icon-behance-square"></i></a></li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -457,8 +469,9 @@
                 </div>
             </div>
         </div>
-    </div>
-    
+    }
+
+
     <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

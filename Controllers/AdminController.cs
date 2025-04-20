@@ -64,20 +64,23 @@ namespace WebBanSach.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public ActionResult Books()
+        public ActionResult Books(int page = 1)
         {
             if (User.Identity.IsAuthenticated)
             {
                 var user = db.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
                 if (user != null && user.Role == "Admin")
                 {
-                    var books = db.Books.ToList();
+                    int pageSize = 100;
+                    var totalBooks = db.Books.Count();
+                    var totalPages = (int)Math.Ceiling((double)totalBooks / pageSize);
+                    var books = db.Books.Include("Category").OrderBy(b => b.Id).Skip((page - 1) * pageSize).Take(pageSize).ToList();
+                    ViewBag.CurrentPage = page;
+                    ViewBag.TotalPages = totalPages;
                     return View(books);
                 }
             }
             return RedirectToAction("Index", "Home");
-
-
         }
 
         public ActionResult Users()
