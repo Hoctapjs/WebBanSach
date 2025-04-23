@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using WebBanSach.App_Start;
 using WebBanSach.Models;
+using WebBanSach.Services;
 
 
 namespace WebBanSach.Controllers
@@ -612,5 +613,16 @@ namespace WebBanSach.Controllers
             }
             return RedirectToAction("Index", "Home");
         }
+
+        // tính năng ko mở lên chạy
+
+        //public ActionResult SeedCsvUsers()
+        //{
+        //    var path = Server.MapPath("~/App_Data/Ratings.csv");
+        //    var seeder = new CsvUserSeedService();
+        //    seeder.SeedUsersFromCsv(path);
+
+        //    return Content("Tạo user và ánh xạ thành công!");
+        //}
     }
 }

@@ -311,11 +311,11 @@
             <!-- Hộp Chat -->
             <div id="chat-widget">
                 <div class="chat-header">
-                    💬 Tư vấn sách - Chatbot
+                    Books Recommentdation - Chatbot
                 </div>
                 <div id="chat" class="chat-box"></div>
                 <div class="chat-input">
-                    <input type="text" id="message" placeholder="Nhập nội dung..."
+                    <input type="text" id="message" placeholder="Ask to know what book for you..."
                            onkeydown="if(event.key==='Enter') sendMessage()">
                     <button class="btn btn-primary" onclick="sendMessage()">Gửi</button>
                 </div>
@@ -342,7 +342,7 @@
                     input.value = "";
 
                     try {
-                        const res = await fetch("http://127.0.0.1:5000/ask", {
+                        const res = await fetch("https://your-app-name1-8e0b2650ab63.herokuapp.com/ask", {
                             method: "POST",
                             headers: { "Content-Type": "application/json" },
                             body: JSON.stringify({ message })
