@@ -239,6 +239,40 @@
             font-size: 12px;
         }
     }
+
+    /* Phân trang css*/
+    /*    .pagination a:hover {
+        background-color: #ffc107 !important;
+        color: #fff !important;
+    }*/
+
+    /* Cột hình */
+    .table td:nth-child(2),
+    .table th:nth-child(2) {
+        width: 120px;
+    }
+
+    /* Cột mô tả */
+    .table td:nth-child(4),
+    .table th:nth-child(4) {
+        max-width: 250px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    /* Giới hạn tất cả các cột để tránh bảng vỡ */
+    .table td,
+    .table th {
+        max-width: 280px !important;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .top-content {
+        padding: 0;
+    }
 </style>
 
 <script>
@@ -281,10 +315,49 @@
 
     <!-- Main content -->
     <div class="admin-main-content">
-        <h2>Danh sách sách</h2>
+        <h1>Quản Lý Sách</h1>
 
-        <a class="btn btn-accent" href="@Url.Action("Create_book", "Admin")">Create a new book</a>
-        <br />  <br />
+        <div class="d-flex justify-content-between align-items-center mb-3" style="gap: 10px;">
+            <a class="btn btn-accent" href="@Url.Action("Create_book", "Admin")">Create a new book</a>
+
+            @if (ViewBag.TotalPages > 1)
+            {
+                <div class="pagination d-flex" style="margin: 0;">
+
+                    @{
+                        int currentPage = ViewBag.CurrentPage;
+                        int totalPages = ViewBag.TotalPages;
+                        int maxDisplay = 10;
+
+                        int startPage = ((currentPage - 1) / maxDisplay) * maxDisplay + 1;
+                        int endPage = Math.Min(startPage + maxDisplay - 1, totalPages);
+                    }
+
+                    @if (startPage > 1)
+                    {
+                        <a href="@Url.Action("Books", "Admin", new { page = startPage - 1 })" class="btn btn-light mx-1">«</a>
+                    }
+
+                    @for (int i = startPage; i <= endPage; i++)
+                    {
+                        if (i == currentPage)
+                        {
+                            <span class="btn btn-dark mx-1">@i</span>
+                        }
+                        else
+                        {
+                            <a href="@Url.Action("Books", "Admin", new { page = i })" class="btn btn-light mx-1">@i</a>
+                        }
+                    }
+
+                    @if (endPage < totalPages)
+                    {
+                        <a href="@Url.Action("Books", "Admin", new { page = endPage + 1 })" class="btn btn-light mx-1">»</a>
+                    }
+                </div>
+            }
+        </div>
+
         <!-- Bọc bảng trong div có thanh cuộn -->
         <div class="table-container">
             <table class="table">
@@ -304,12 +377,16 @@
                     <tr>
                         <td>@book.Id</td>
                         <td>
-                            <img src="@book.ImageUrl" alt="@book.Title" />
+                            <img src="@book.ImageUrl"
+                                 alt="@book.Title"
+                                 class="book-image"
+                                 onerror="this.onerror=null;this.src='/Asset/images/DefaultBook.png';"
+                                 onload="if(this.naturalWidth < 100 || this.naturalHeight < 100){this.src='/Asset/images/DefaultBook.png';}" />
                         </td>
                         <td>@book.Title</td>
                         <td>@book.Description</td>
                         <td>@book.Author</td>
-                        <td class="price">@String.Format("{0:N3}₫", book.Price)</td>
+                        <td class="price">@String.Format("{0:N1}₫", book.Price)</td>
                         <td>@book.Category.Name</td>
                         <td style="text-align:center">
                             <a style="margin-right:10px" href="@Url.Action("Delete_book", "Admin", new {id=book.Id})">

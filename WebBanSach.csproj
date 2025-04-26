@@ -44,6 +44,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CsvHelper, Version=33.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
+      <HintPath>packages\CsvHelper.33.0.1\lib\net48\CsvHelper.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>packages\EntityFramework.6.5.1\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -58,6 +61,12 @@
     </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Owin, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.AspNet.Identity.Owin.2.2.4\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Bcl.AsyncInterfaces.8.0.0\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.HashCode, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Bcl.HashCode.1.1.1\lib\net461\Microsoft.Bcl.HashCode.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Owin, Version=4.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -78,8 +87,24 @@
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
       <HintPath>packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
+    <Reference Include="System.Buffers, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Buffers.4.4.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Memory, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Memory.4.5.0\lib\netstandard2.0\System.Memory.dll</HintPath>
+    </Reference>
     <Reference Include="System.Net.Http" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Numerics.Vectors.4.4.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Runtime.CompilerServices.Unsafe.4.5.3\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
     <Reference Include="System.Security" />
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -142,15 +167,8 @@
     <Content Include="Asset\icomoon\fonts\icomoon.svg" />
     <Content Include="Asset\icomoon\icomoon.css" />
     <Content Include="Asset\icomoon\Read Me.txt" />
-    <Content Include="Asset\images\2d8dd68f-f875-4860-9476-2a6c91ad923e.jpg" />
-    <Content Include="Asset\images\646c59a0-9084-4e1b-ab9c-80177271078b.jpg" />
-    <Content Include="Asset\images\71cf2c1c-fc8a-43fa-aa43-ba7e56453fab.jpg" />
-    <Content Include="Asset\images\aac01248-6f81-45cf-8a33-4510fa657075.jpg" />
-    <Content Include="Asset\images\ae87c33b-490c-4173-b640-52eaf41fbfed.jpg" />
     <Content Include="Asset\images\app-store.jpg" />
-    <Content Include="Asset\images\Artificial Intelligence Basics.jpg" />
-    <Content Include="Asset\images\Attack on Titan Vol 1.jpg" />
-    <Content Include="Asset\images\Business Growth Hacks.jpg" />
+    <Content Include="Asset\images\chatboticon.png" />
     <Content Include="Asset\images\chocolat\close.png" />
     <Content Include="Asset\images\chocolat\fullscreen-black.png" />
     <Content Include="Asset\images\chocolat\fullscreen.png" />
@@ -162,30 +180,21 @@
     <Content Include="Asset\images\client-image3.png" />
     <Content Include="Asset\images\client-image4.png" />
     <Content Include="Asset\images\client-image5.png" />
-    <Content Include="Asset\images\Cooking with Love.jpg" />
     <Content Include="Asset\images\curly-divider.svg" />
     <Content Include="Asset\images\default.png" />
     <Content Include="Asset\images\DefaultBook.png" />
-    <Content Include="Asset\images\Demon Slayer Vol 1.jpg" />
     <Content Include="Asset\images\device.png" />
-    <Content Include="Asset\images\Dragon Ball Vol 1.jpg" />
-    <Content Include="Asset\images\gojo.png" />
     <Content Include="Asset\images\google-play.jpg" />
-    <Content Include="Asset\images\image-removebg-preview.png" />
     <Content Include="Asset\images\item.png" />
     <Content Include="Asset\images\item1.png" />
     <Content Include="Asset\images\item3.png" />
     <Content Include="Asset\images\item4.png" />
     <Content Include="Asset\images\item5.png" />
     <Content Include="Asset\images\leaf.png" />
-    <Content Include="Asset\images\Love in Paris.jpg" />
     <Content Include="Asset\images\main-banner1.jpg" />
     <Content Include="Asset\images\main-banner2.jpg" />
     <Content Include="Asset\images\main-logo.png" />
-    <Content Include="Asset\images\Mystery at Midnight.jpg" />
-    <Content Include="Asset\images\Naruto Vol 1.jpg" />
     <Content Include="Asset\images\ns-arrow-right.svg" />
-    <Content Include="Asset\images\One Piece Vol 1.jpg" />
     <Content Include="Asset\images\pattern1.png" />
     <Content Include="Asset\images\pattern2.png" />
     <Content Include="Asset\images\post-img1.jpg" />
@@ -208,8 +217,6 @@
     <Content Include="Asset\images\tab-item6.jpg" />
     <Content Include="Asset\images\tab-item7.jpg" />
     <Content Include="Asset\images\tab-item8.jpg" />
-    <Content Include="Asset\images\The Great Adventure.jpg" />
-    <Content Include="Asset\images\The Science of Everything.jpg" />
     <Content Include="Asset\js\jquery-1.11.0.min.js" />
     <Content Include="Asset\js\modernizr.js" />
     <Content Include="Asset\js\plugins.js" />
@@ -251,9 +258,9 @@
     <Compile Include="Migrations\202504051041304_InitialCreate1.Designer.cs">
       <DependentUpon>202504051041304_InitialCreate1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202504120910422_them_vao_isbn.cs" />
-    <Compile Include="Migrations\202504120910422_them_vao_isbn.Designer.cs">
-      <DependentUpon>202504120910422_them_vao_isbn.cs</DependentUpon>
+    <Compile Include="Migrations\202504231030453_Add_UserMap_table.cs" />
+    <Compile Include="Migrations\202504231030453_Add_UserMap_table.Designer.cs">
+      <DependentUpon>202504231030453_Add_UserMap_table.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
@@ -268,12 +275,15 @@
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\OrderDetail.cs" />
+    <Compile Include="Models\RatingRow.cs" />
     <Compile Include="Models\RegisterViewModel.cs" />
     <Compile Include="Models\ShoppingCartItem.cs" />
+    <Compile Include="Models\UserMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\BookRepository.cs" />
     <Compile Include="Repositories\IBookRepository.cs" />
     <Compile Include="Services\BookService.cs" />
+    <Compile Include="Services\CsvUserSeedService.cs" />
     <Compile Include="Services\IBookService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Utils\Apriori.cs" />
@@ -284,6 +294,7 @@
     <Content Include="Asset\icomoon\fonts\icomoon.ttf" />
     <Content Include="Asset\icomoon\fonts\icomoon.woff" />
     <Content Include="Asset\icomoon\selection.json" />
+    <Content Include="App_Data\Ratings.csv" />
     <None Include="packages.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
@@ -318,7 +329,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Views\BookApi\" />
   </ItemGroup>
   <ItemGroup>
@@ -334,8 +344,8 @@
     <EmbeddedResource Include="Migrations\202504051041304_InitialCreate1.resx">
       <DependentUpon>202504051041304_InitialCreate1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202504120910422_them_vao_isbn.resx">
-      <DependentUpon>202504120910422_them_vao_isbn.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202504231030453_Add_UserMap_table.resx">
+      <DependentUpon>202504231030453_Add_UserMap_table.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
@@ -379,10 +389,4 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <Target Name="EnsureRoslynFilesCopiedToOutputDirectory" AfterTargets="Build">
-    <ItemGroup>
-      <RoslynFiles Include="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\roslyn\**\*.*" />
-    </ItemGroup>
-    <Copy SourceFiles="@(RoslynFiles)" DestinationFolder="$(OutDir)roslyn\%(RecursiveDir)" SkipUnchangedFiles="true" />
-  </Target>
 </Project>
