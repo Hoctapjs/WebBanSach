@@ -100,7 +100,7 @@ describe("Test chức năng Thêm sách mới tại trang Admin", () => {
     cy.get("#Description").type("Mô tả...");
     cy.get("#Author").type("Tác giả");
     cy.get("#Price").type("100000");
-    cy.get("#imageFile").attachFile("test.txt"); // test.txt cần có trong fixtures
+    cy.get("#imageFile").attachFile("test.txt"); // Chọn test.txt chứ không phải file ảnh, file đặt trong fixtures
     cy.get("#CategoryId").select("Technology");
     cy.get('button[type="submit"]').click();
 
@@ -146,7 +146,7 @@ describe("Test chức năng Thêm sách mới tại trang Admin", () => {
     cy.get("#Title").type("Giá quá lớn");
     cy.get("#Description").type("Mô tả...");
     cy.get("#Author").type("Tác giả");
-    cy.get("#Price").type("1000000000"); // 1 tỷ
+    cy.get("#Price").type("1000000000"); // Giá sách là 1 tỷ
     cy.get("#imageFile").attachFile("test.jpg");
     cy.get("#CategoryId").select("Technology");
     cy.get('button[type="submit"]').click();
@@ -155,7 +155,7 @@ describe("Test chức năng Thêm sách mới tại trang Admin", () => {
   });
 
   it("TC13 - Tiêu đề quá dài", () => {
-    cy.get("#Title").type("A".repeat(300)); // Giả sử giới hạn là 255
+    cy.get("#Title").type("A".repeat(300)); // Giả sử giới hạn là 255 ký tự cho tiêu đề thôi
     cy.get("#Description").type("Mô tả...");
     cy.get("#Author").type("Tác giả");
     cy.get("#Price").type("100000");
@@ -168,7 +168,7 @@ describe("Test chức năng Thêm sách mới tại trang Admin", () => {
 
   it("TC14 - Mô tả quá dài", () => {
     cy.get("#Title").type("Mô tả dài");
-    cy.get("#Description").type("B".repeat(2000)); // giả định giới hạn là 1000
+    cy.get("#Description").type("B".repeat(2000)); // giả định giới hạn là 1000 ký tự
     cy.get("#Author").type("Tác giả");
     cy.get("#Price").type("100000");
     cy.get("#imageFile").attachFile("test.jpg");
