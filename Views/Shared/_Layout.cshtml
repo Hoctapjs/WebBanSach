@@ -304,6 +304,24 @@
 
     @if (!hideHeader)
     {
+        <script>
+
+            document.addEventListener("DOMContentLoaded", function () {
+                const isChatbotClosed = localStorage.getItem("chatbotClosed");
+                const chatWidget = document.getElementById("chat-widget");
+                const chatIcon = document.getElementById("chat-icon");
+
+                if (isChatbotClosed === "true") {
+                    chatWidget.style.display = "none";
+                } else {
+                    // Hiển thị chatbot lần đầu
+                    chatWidget.style.display = "flex";
+                    chatIcon.style.display = "flex";
+                }
+            });
+           
+
+        </script>
         <div class="api_chatbot">
             <!-- Icon bật/tắt -->
             <div id="chat-icon" onclick="toggleChat()">💬</div>
@@ -327,7 +345,9 @@
                     if (chatWidget.style.display === "none" || chatWidget.style.display === "") {
                         chatWidget.style.display = "flex";
                     } else {
+                        // khi người dùng tắt chat bot lần đầu thì lưu vô localstorage
                         chatWidget.style.display = "none";
+                        localStorage.setItem("chatbotClosed", "true");
                     }
                 }
 
