@@ -58,7 +58,7 @@ describe("Test chức năng Thêm đơn hàng mới tại trang Admin", () => {
     cy.contains("UserId không hợp lệ").should("exist");
   });
 
-  it("TC86 - Ngày đặt hàng là ngày quá khứ", () => {
+  it("TC6 - Ngày đặt hàng là ngày quá khứ", () => {
     cy.get("#UserId").type("2");
     cy.get("#OrderDate").type("2020-01-01"); // Ngày quá khứ
     cy.get("#Status").type("Completed");
