@@ -262,6 +262,30 @@
     <Compile Include="Migrations\202504231030453_Add_UserMap_table.Designer.cs">
       <DependentUpon>202504231030453_Add_UserMap_table.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202505130042031_RatingModel.cs" />
+    <Compile Include="Migrations\202505130042031_RatingModel.Designer.cs">
+      <DependentUpon>202505130042031_RatingModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202505130047537_FixUserMapModel.cs" />
+    <Compile Include="Migrations\202505130047537_FixUserMapModel.Designer.cs">
+      <DependentUpon>202505130047537_FixUserMapModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202505130059192_UserMapModel.cs" />
+    <Compile Include="Migrations\202505130059192_UserMapModel.Designer.cs">
+      <DependentUpon>202505130059192_UserMapModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202505150606449_UserId.cs" />
+    <Compile Include="Migrations\202505150606449_UserId.Designer.cs">
+      <DependentUpon>202505150606449_UserId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202505150710065_khoangoaiusermap.cs" />
+    <Compile Include="Migrations\202505150710065_khoangoaiusermap.Designer.cs">
+      <DependentUpon>202505150710065_khoangoaiusermap.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202505150842194_comment.cs" />
+    <Compile Include="Migrations\202505150842194_comment.Designer.cs">
+      <DependentUpon>202505150842194_comment.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
@@ -346,6 +370,24 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202504231030453_Add_UserMap_table.resx">
       <DependentUpon>202504231030453_Add_UserMap_table.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202505130042031_RatingModel.resx">
+      <DependentUpon>202505130042031_RatingModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202505130047537_FixUserMapModel.resx">
+      <DependentUpon>202505130047537_FixUserMapModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202505130059192_UserMapModel.resx">
+      <DependentUpon>202505130059192_UserMapModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202505150606449_UserId.resx">
+      <DependentUpon>202505150606449_UserId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202505150710065_khoangoaiusermap.resx">
+      <DependentUpon>202505150710065_khoangoaiusermap.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202505150842194_comment.resx">
+      <DependentUpon>202505150842194_comment.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

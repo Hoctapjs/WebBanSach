@@ -2,226 +2,637 @@
 
 @{
     ViewBag.Title = Model.Book.Title;
+    var usermap = ViewBag.usermap as List<WebBanSach.Models.UserMap>;
+    var ratinglist= ViewBag.ratinglist as List<WebBanSach.Models.RatingRow>;
+
 }
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Thêm FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 
-<style>
-    /* Container chính */
-    .book-detail {
-        padding: 50px 0;
-        background-color: #f9f7f2; /* Nền nhẹ nhàng */
-    }
+    <!-- Thêm jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
-    /* Container cho hình ảnh sách */
-    .book-image-container {
-        width: 100%;
-        height: 452px; /* Chiều cao cố định cho container */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background-color: #fff;
-        border-radius: 10px;
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-        overflow: hidden;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
+    <!-- Thêm Bootstrap  -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 
-        .book-image-container:hover {
-            transform: scale(1.05);
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+    <style>
+        /* Container chính */
+        .book-detail {
+            padding: 50px 0;
+            background-color: #f9f7f2; /* Nền nhẹ nhàng */
         }
 
-        /* Hình ảnh sách */
-        .book-image-container img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain; /* Giữ tỷ lệ ảnh, không bóp méo */
+        /* Container cho hình ảnh sách */
+        .book-image-container {
+            width: 100%;
+            height: 452px; /* Chiều cao cố định cho container */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #fff;
             border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-    /* Thông tin sách */
-    .book-info {
-        padding: 20px;
-        background-color: #fff;
-        border-radius: 10px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    }
+            .book-image-container:hover {
+                transform: scale(1.05);
+                box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+            }
 
-        .book-info h2 {
+            /* Hình ảnh sách */
+            .book-image-container img {
+                max-width: 100%;
+                max-height: 100%;
+                object-fit: contain; /* Giữ tỷ lệ ảnh, không bóp méo */
+                border-radius: 10px;
+            }
+
+        /* Thông tin sách */
+        .book-info {
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+            .book-info h2 {
+                font-family: 'Georgia', serif;
+                color: #3e3221;
+                font-size: 2.5rem;
+                margin-bottom: 15px;
+            }
+
+            .book-info p {
+                font-size: 1.1rem;
+                color: #5a4d36;
+                margin-bottom: 10px;
+            }
+
+            .book-info .price {
+                font-size: 1.5rem;
+                font-weight: bold;
+                color: #a38745;
+                margin: 15px 0;
+            }
+
+            /* Container cho các nút */
+            .book-info .button-group {
+                display: flex; /* Đảm bảo các nút nằm trên cùng một hàng */
+                align-items: center;
+                gap: 10px; /* Khoảng cách giữa các nút */
+                margin-top: 20px;
+            }
+
+            /* Nút chức năng */
+            .book-info .btn {
+                font-family: 'Georgia', serif;
+                font-size: 1rem;
+                padding: 10px 20px;
+                border-radius: 5px;
+                transition: background-color 0.3s ease, transform 0.3s ease;
+                text-transform: uppercase; /* Chữ in hoa */
+                text-decoration: none; /* Bỏ gạch chân của thẻ <a> */
+                width: 250px;
+            }
+
+            /* Nút "Thêm vào giỏ hàng" */
+            .book-info .btn-add-to-cart {
+                background-color: transparent;
+                border: 2px solid #a38745; /* Viền màu giống nền cũ */
+                color: #a38745; /* Chữ màu giống viền */
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+                .book-info .btn-add-to-cart i {
+                    margin-right: 8px; /* Khoảng cách giữa icon và chữ */
+                }
+
+                .book-info .btn-add-to-cart:hover {
+                    background-color: #a38745;
+                    color: #fff;
+                    transform: translateY(-2px);
+                }
+
+            /* Nút "Mua ngay" */
+            .book-info .btn-buy-now {
+                background-color: #5a4d36; /* Giữ màu nền cũ */
+                border: none;
+                color: #fff;
+            }
+
+                .book-info .btn-buy-now:hover {
+                    background-color: #3e3221;
+                    transform: translateY(-2px);
+                }
+
+        /* Sách liên quan */
+        .related-books h3 {
             font-family: 'Georgia', serif;
             color: #3e3221;
-            font-size: 2.5rem;
+            font-size: 2rem;
+            margin: 40px 0 20px;
+            text-align: center;
+        }
+
+        .related-books .book-image {
+            width: 80%;
+            height: 200px;
+            object-fit: cover; /* Dùng cover cho sách liên quan để đồng bộ với Index */
+            display: block;
+            margin: 0 auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+            .related-books .book-image:hover {
+                transform: scale(1.1);
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            }
+
+        .related-books .product-item {
+            background-color: #fff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            border-radius: 8px;
+            padding: 15px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+            .related-books .product-item:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+            }
+
+        .related-books figcaption h5 {
+            font-family: 'Georgia', serif;
+            color: #5a4d36;
+            font-size: 1.2rem;
+            margin-top: 10px;
+        }
+
+        .related-books figcaption p {
+            color: #a38745;
+            font-size: 1rem;
+        }
+        /* Đánh giá sản phẩm */
+        .product-reviews {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+            .product-reviews h3 {
+                font-family: 'Georgia', serif;
+                color: #3e3221;
+                font-size: 2rem;
+                margin-bottom: 30px;
+                text-align: center; /* Căn giữa tiêu đề */
+            }
+
+        .review-form h4 {
+            font-family: 'Georgia', serif;
+            color: #3e3221;
+            font-size: 1.5rem;
             margin-bottom: 15px;
         }
 
-        .book-info p {
-            font-size: 1.1rem;
-            color: #5a4d36;
-            margin-bottom: 10px;
+        .filter-rating {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
         }
 
-        .book-info .price {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #a38745;
-            margin: 15px 0;
+            .filter-rating input[type="radio"] {
+                display: none;
+            }
+
+            .filter-rating label {
+                font-size: 1.5rem;
+                color: #ccc;
+                cursor: pointer;
+            }
+
+                .filter-rating input:checked ~ label,
+                .filter-rating label:hover,
+                .filter-rating label:hover ~ label {
+                    color: #f5c518;
+                }
+
+            .filter-rating input:checked + label {
+                color: #f5c518;
+            }
+
+        .review-item {
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 15px;
         }
 
-        /* Container cho các nút */
-        .book-info .button-group {
-            display: flex; /* Đảm bảo các nút nằm trên cùng một hàng */
-            align-items: center;
-            gap: 10px; /* Khoảng cách giữa các nút */
-            margin-top: 20px;
-        }
-
-        /* Nút chức năng */
-        .book-info .btn {
-            font-family: 'Georgia', serif;
-            font-size: 1rem;
-            padding: 10px 20px;
-            border-radius: 5px;
-            transition: background-color 0.3s ease, transform 0.3s ease;
-            text-transform: uppercase; /* Chữ in hoa */
-            text-decoration: none; /* Bỏ gạch chân của thẻ <a> */
-            width: 250px;
-        }
-
-        /* Nút "Thêm vào giỏ hàng" */
-        .book-info .btn-add-to-cart {
-            background-color: transparent;
-            border: 2px solid #a38745; /* Viền màu giống nền cũ */
-            color: #a38745; /* Chữ màu giống viền */
+        .avatar-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-        }
-
-            .book-info .btn-add-to-cart i {
-                margin-right: 8px; /* Khoảng cách giữa icon và chữ */
-            }
-
-            .book-info .btn-add-to-cart:hover {
-                background-color: #a38745;
-                color: #fff;
-                transform: translateY(-2px);
-            }
-
-        /* Nút "Mua ngay" */
-        .book-info .btn-buy-now {
-            background-color: #5a4d36; /* Giữ màu nền cũ */
-            border: none;
             color: #fff;
+            font-weight: bold;
+            font-size: 1.2rem;
         }
 
-            .book-info .btn-buy-now:hover {
-                background-color: #3e3221;
-                transform: translateY(-2px);
+        .review-content .star-rating span {
+            font-size: 1.2rem;
+            color: transparent;
+        }
+
+        .review-content .text-muted {
+            font-size: 0.9rem;
+            color: #888;
+        }
+
+        .review-content p {
+            margin-top: 5px;
+            color: #5a4d36;
+        }
+        /* Thông báo đăng nhập */
+        .login-prompt {
+            background-color: #f8f1e9; /* Nền nhạt */
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+            .login-prompt:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             }
 
-    /* Sách liên quan */
-    .related-books h3 {
-        font-family: 'Georgia', serif;
-        color: #3e3221;
-        font-size: 2rem;
-        margin: 40px 0 20px;
-        text-align: center;
-    }
+            .login-prompt p {
+                margin: 0;
+                color: #5a4d36;
+                font-size: 1rem;
+            }
 
-    .related-books .book-image {
-        width: 80%;
-        height: 200px;
-        object-fit: cover; /* Dùng cover cho sách liên quan để đồng bộ với Index */
-        display: block;
-        margin: 0 auto;
-        border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
+            .login-prompt a {
+                color: #a38745;
+                font-weight: bold;
+                text-decoration: none;
+            }
 
-        .related-books .book-image:hover {
-            transform: scale(1.1);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+                .login-prompt a:hover {
+                    color: #3e3221;
+                    text-decoration: underline;
+                }
+
+        /* Thông báo chưa có đánh giá */
+        .no-reviews {
+            background-color: #f8f1e9;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
         }
 
-    .related-books .product-item {
-        background-color: #fff;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-        border-radius: 8px;
-        padding: 15px;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        margin-bottom: 20px;
-        text-align: center;
-    }
-
-        .related-books .product-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+            .no-reviews p {
+                margin: 0;
+                color: #5a4d36;
+                font-size: 1rem;
+            }
+        /* Button */
+        .review-form .btn-danger {
+            margin-top:10px;
+            background-color: #dc3545;
+            border: none;
+            padding: 8px 20px; /* Thu nhỏ button */
+            font-size: 0.9rem; /* Thu nhỏ chữ */
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
         }
 
-    .related-books figcaption h5 {
-        font-family: 'Georgia', serif;
-        color: #5a4d36;
-        font-size: 1.2rem;
-        margin-top: 10px;
-    }
-
-    .related-books figcaption p {
-        color: #a38745;
-        font-size: 1rem;
-    }
-</style>
-
-<div class="book-detail">
-    <div class="container">
-        <!-- Thông báo thành công (nếu có) -->
-        @if (TempData["Message"] != null)
-        {
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                @TempData["Message"]
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
+            .review-form .btn-danger:hover {
+                background-color: #c82333;
+                transform: translateY(-2px);
+            }
+        /*Rating*/
+        /* CSS cho phần danh sách đánh giá (.star-rating) */
+        .star-rating {
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            gap: 5px; /* Khoảng cách giữa các ngôi sao */
         }
 
-        <!-- Thông tin sách -->
-        <div class="row">
-            <div class="col-md-5">
-                <div class="book-image-container">
-                    <img src="@Model.Book.ImageUrl" alt="@Model.Book.Title" />
+            .star-rating .star {
+                display: inline-block;
+                position: relative;
+                width: 24px; /* Chiều rộng đầy đủ của sao */
+                height: 24px;
+                line-height: 24px;
+            }
+
+                .star-rating .star::before {
+                    font-family: "FontAwesome";
+                    content: "\f005";
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    color: #ccc; /* Màu mặc định cho sao trống */
+                    font-size: 20px;
+                    width: 24px;
+                    text-align: center;
+                }
+
+                .star-rating .star.filled::before {
+                    color: #f39c12 !important; /* Màu cho sao đầy đủ */
+                }
+
+                .star-rating .star.half.left::before {
+                    clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%);
+                    left: 0;
+                }
+
+                .star-rating .star.half.right::before {
+                    clip-path: polygon(50% 0, 100% 0, 100% 100%, 50% 100%);
+                    left: 0;
+                }
+        /* CSS cho container bọc nửa sao */
+        .star-half-wrapper {
+            display: inline-flex;
+            width: 24px; /* Tổng chiều rộng của nhóm nửa sao bằng một sao đầy đủ */
+            position: relative;
+        }
+
+            .star-half-wrapper .star {
+                width: 0px; /* Chiều rộng của mỗi nửa sao */
+                margin: 0; /* Bỏ khoảng cách giữa hai nửa sao */
+            }
+
+        /* CSS cho phần form đánh giá (.stars) */
+        .stars {
+            display: inline-flex;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+            .stars .star {
+                display: inline-block;
+                position: relative;
+                width: 12px; /* Chiều rộng của nửa sao */
+                height: 32px;
+            }
+
+                .stars .star::before {
+                    font-family: "FontAwesome";
+                    content: "\f005";
+                    position: absolute;
+                    top: 0;
+                    color: #ccc;
+                    font-size: 20px;
+                    width: 24px; /* Chiều rộng đầy đủ của sao */
+                    text-align: center;
+                }
+
+                .stars .star.filled::before {
+                    color: #f39c12 !important;
+                }
+
+                .stars .star.half.left::before {
+                    clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%);
+                    left: 0;
+                }
+
+                .stars .star.half.right::before {
+                    clip-path: polygon(50% 0, 100% 0, 100% 100%, 50% 100%);
+                    left: -13px; /* Đặt lại vị trí của nửa sao phải */
+                }
+    </style>
+
+</head>
+<body>
+
+    <div class="book-detail">
+        <div class="container">
+            <!-- Thông báo thành công (nếu có) -->
+            @if (TempData["Message"] != null)
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    @TempData["Message"]
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
                 </div>
-            </div>
-            <div class="col-md-7">
-                <div class="book-info">
-                    <h2>@Model.Book.Title</h2>
-                    <p><strong>Tác giả:</strong> @Model.Book.Author</p>
-                    <p><strong>Thể loại:</strong> @Model.Book.Category.Name</p>
-                    <p class="price"> @string.Format("{00:N3}₫", @Model.Book.Price) </p>
-                    <p><strong>Mô tả:</strong> @Model.Book.Description</p>
-                    <p><strong>Kho:</strong> @Model.Book.Stock</p>
-                    <div class="button-group">
-                        <a href="#" class="btn btn-add-to-cart add-to-cart-btn" data-id="@Model.Book.Id">
-                            <i class="fas fa-shopping-cart"></i> Thêm vào giỏ hàng
-                        </a>
-                        <a href="@Url.Action("MuaNgay", "Cart", new {id=Model.Book.Id} )" class="btn btn-buy-now">Mua ngay</a>
+            }
+
+            <!-- Thông tin sách -->
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="book-image-container">
+                        <img src="@Model.Book.ImageUrl" alt="@Model.Book.Title" />
                     </div>
-         
                 </div>
-            </div>
-        </div>
+                <div class="col-md-7">
+                    <div class="book-info">
+                        <h2>@Model.Book.Title</h2>
+                        <p><strong>Tác giả:</strong> @Model.Book.Author</p>
+                        <p><strong>Thể loại:</strong> @Model.Book.Category.Name</p>
+                        <p class="price"> @string.Format("{00:N3}₫", @Model.Book.Price) </p>
+                        <p><strong>Mô tả:</strong> @Model.Book.Description</p>
+                        <p><strong>Kho:</strong> @Model.Book.Stock</p>
+                        <div class="button-group">
+                            <a href="#" class="btn btn-add-to-cart add-to-cart-btn" data-id="@Model.Book.Id">
+                                <i class="fas fa-shopping-cart"></i> Thêm vào giỏ hàng
+                            </a>
+                            <a href="@Url.Action("MuaNgay", "Cart", new {id=Model.Book.Id} )" class="btn btn-buy-now">Mua ngay</a>
+                        </div>
 
-        <!-- Sách liên quan -->
-        @if (Model.RelatedBooks.Any())
-        {
-            <div class="related-books">
-                <h3>Sách liên quan</h3>
-                <div class="row">
-                    @foreach (var book in Model.RelatedBooks)
-                    {
-                        @Html.Partial("_BookItemPartial", book)
-                    }
+                    </div>
                 </div>
             </div>
-        }
+
+            <!-- Sách liên quan -->
+            @if (Model.RelatedBooks.Any())
+            {
+                <div class="related-books">
+                    <h3>Sách liên quan</h3>
+                    <div class="row">
+                        @foreach (var book in Model.RelatedBooks)
+                        {
+                            @Html.Partial("_BookItemPartial", book)
+                        }
+                    </div>
+                </div>
+            }
+            <!-- Đánh giá sản phẩm -->
+        <div class="product-reviews mt-5">
+            <h3>Đánh giá sản phẩm</h3>
+
+            <!-- Form đánh giá (chỉ hiển thị nếu đã đăng nhập) -->
+            @if (User.Identity.IsAuthenticated)
+            {
+                <div class="review-form mb-4">
+                    <!-- Form đánh giá -->
+                    <form action="/Book/CommentBook" method="post">
+                        <input type="hidden" name="ISBN" value="@Model.Book.ISBN" />
+                        <input type="hidden" name="UserID" value="@ViewBag.userId" />
+                        <div class="star-rating">
+                            <label>Đánh giá:</label>
+                            <div style="display:flex" class="stars">
+                                <span class="star half left" data-value="1.0"></span>
+                                <span class="star half right" data-value="2.0"></span>
+                                <span class="star half left" data-value="3.0"></span>
+                                <span class="star half right" data-value="4.0"></span>
+                                <span class="star half left" data-value="5.0"></span>
+                                <span class="star half right" data-value="6.0"></span>
+                                <span class="star half left" data-value="7.0"></span>
+                                <span class="star half right" data-value="8.0"></span>
+                                <span class="star half left" data-value="9.0"></span>
+                                <span class="star half right" data-value="10.0"></span>
+                            </div>
+                            <input name="BookRating" type="hidden" value="0" />
+                        </div>
+                        <div class="form-group">
+                            <textarea class="form-control" id="Comment" name="Comment" rows="2" placeholder="Viết bình luận của bạn..." required></textarea>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-danger btn-sm">Đánh giá ngay</button>
+                        </div>
+                    </form>
+                </div>
+            }
+            else
+            {
+                <div class="login-prompt mb-4">
+                    <p>Vui lòng <a href="@Url.Action("Login", "Account")">đăng nhập</a> để đánh giá sản phẩm.</p>
+                </div>
+            }
+
+            <!-- Danh sách bình luận -->
+            @if (ratinglist != null && ratinglist.Any())
+            {
+                foreach (var review in ratinglist)
+                {
+                    <div class="review-item d-flex align-items-start mb-3">
+                        <!-- Avatar -->
+                        <div class="avatar-circle me-3" style="background-color: @GetRandomColor();">
+                            <span>
+                                @usermap.FirstOrDefault(x => x.CSVUserId == review.UserID).User.FullName.Substring(0, 1).ToUpper()
+                            </span>
+                        </div>
+                        <div class="review-content">
+                            <div class="d-flex align-items-center">
+                                <strong>@usermap.FirstOrDefault(x=>x.CSVUserId==review.UserID).User.FullName</strong>
+                                <span class="text-muted ms-2">@review.DateCreated.ToString("dd/MM/yyyy")</span>
+                            </div>
+                            <div class="star-rating">
+                                @{
+                                    double ratingInStars = review.BookRating / 2.0;
+                                    int fullStars = (int)Math.Floor(ratingInStars);
+                                    bool hasHalfStar = ratingInStars - fullStars >= 0.5;
+                                }
+                                @for (int i = 0; i < fullStars; i++)
+                                {
+                                    <span class="star filled">★</span>
+                                }
+                                @if (hasHalfStar)
+                                {
+                                    <span class="star-half-wrapper">
+                                        <span class="star half left filled">★</span>
+                                        <span class="star half right">★</span>
+                                    </span>
+                                }
+                                @for (int i = fullStars + (hasHalfStar ? 1 : 0); i < 5; i++)
+                                {
+                                    <span class="star">★</span>
+                                }
+                            </div>
+                            <p>@review.Comment</p>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="no-reviews mb-4">
+                    <p>Chưa có đánh giá nào cho sản phẩm này.</p>
+                </div>
+            }
+        </div>
+        </div>
     </div>
-</div>
+
+    @functions {
+        private static readonly string[] Colors = new[] { "#d9534f", "#5bc0de", "#5cb85c", "#f0ad4e", "#337ab7" };
+        private static Random random = new Random();
+
+        public string GetRandomColor()
+        {
+            return Colors[random.Next(Colors.Length)];
+        }
+    }
+
+
+    <script>
+        $(document).ready(function () {
+            // Xử lý đánh giá sao
+            $('.stars .star').on('click', function () {
+                var value = parseFloat($(this).data('value'));
+
+                // Cập nhật giao diện sao
+                $('.stars .star').each(function () {
+                    var starValue = parseFloat($(this).data('value'));
+                    $(this).removeClass('filled');
+                    if (starValue <= value) {
+                        $(this).addClass('filled');
+                    }
+                });
+
+                // Cập nhật giá trị trường ẩn
+                $('input[name="BookRating"]').val(value);
+            });
+
+            // Xử lý hover để xem trước đánh giá
+            $('.stars .star').on('mouseover', function () {
+                var value = parseFloat($(this).data('value'));
+                $('.stars .star').each(function () {
+                    var starValue = parseFloat($(this).data('value'));
+                    $(this).removeClass('filled');
+                    if (starValue <= value) {
+                        $(this).addClass('filled');
+                    }
+                });
+            });
+
+            // Khôi phục trạng thái khi rời chuột
+            $('.stars').on('mouseout', function () {
+                var currentValue = parseFloat($('input[name="BookRating"]').val()) || 0;
+                $('.stars .star').each(function () {
+                    var starValue = parseFloat($(this).data('value'));
+                    $(this).removeClass('filled');
+                    if (starValue <= currentValue) {
+                        $(this).addClass('filled');
+                    }
+                });
+            });
+
+
+        });
+    </script>
+
+</body>
+</html>
+
+

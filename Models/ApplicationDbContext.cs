@@ -26,5 +26,8 @@ namespace WebBanSach.Models
         public DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }
         // ... các DbSet khác tuỳ bạn có
         public DbSet<UserMap> UserMaps { get; set; }
+
+        public DbSet<RatingRow> Ratings { get; set; }
+
     }
 }

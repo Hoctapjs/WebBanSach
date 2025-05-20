@@ -28,11 +28,11 @@ namespace WebBanSach.Services
             using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
             {
                 var records = csv.GetRecords<RatingRow>();
-                var userIds = new HashSet<int>();
+                var userIds = new HashSet<string>();
 
                 foreach (var record in records)
                 {
-                    int csvUserId = record.UserID;
+                    string csvUserId = record.UserID;
                     if (existingMappings.Contains(csvUserId) || userIds.Contains(csvUserId))
                         continue;
 
