@@ -184,6 +184,28 @@
             color: #a38745;
             font-size: 1rem;
         }
+
+        .no-related-books {
+            background-color: #f8f1e9;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px auto;
+            text-align: center;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+            color: #5a4d36;
+            font-size: 1rem;
+            width: 100%;
+        }
+
+        .no-related-books i {
+            font-size: 1.5rem;
+            color: #a38745;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+
         /* Đánh giá sản phẩm */
         .product-reviews {
             background-color: #fff;
@@ -463,114 +485,124 @@
                 </div>
             </div>
 
+
             <!-- Sách liên quan -->
-            @if (Model.RelatedBooks.Any())
-            {
-                <div class="related-books">
-                    <h3>Sách liên quan</h3>
+            <div class="related-books">
+                <h3>Sách liên quan</h3>
+                @if (Model.RelatedBooks.Any())
+                {
                     <div class="row">
                         @foreach (var book in Model.RelatedBooks)
                         {
                             @Html.Partial("_BookItemPartial", book)
                         }
                     </div>
-                </div>
-            }
-            <!-- Đánh giá sản phẩm -->
-        <div class="product-reviews mt-5">
-            <h3>Đánh giá sản phẩm</h3>
-
-            <!-- Form đánh giá (chỉ hiển thị nếu đã đăng nhập) -->
-            @if (User.Identity.IsAuthenticated)
-            {
-                <div class="review-form mb-4">
-                    <!-- Form đánh giá -->
-                    <form action="/Book/CommentBook" method="post">
-                        <input type="hidden" name="ISBN" value="@Model.Book.ISBN" />
-                        <input type="hidden" name="UserID" value="@ViewBag.userId" />
-                        <div class="star-rating">
-                            <label>Đánh giá:</label>
-                            <div style="display:flex" class="stars">
-                                <span class="star half left" data-value="1.0"></span>
-                                <span class="star half right" data-value="2.0"></span>
-                                <span class="star half left" data-value="3.0"></span>
-                                <span class="star half right" data-value="4.0"></span>
-                                <span class="star half left" data-value="5.0"></span>
-                                <span class="star half right" data-value="6.0"></span>
-                                <span class="star half left" data-value="7.0"></span>
-                                <span class="star half right" data-value="8.0"></span>
-                                <span class="star half left" data-value="9.0"></span>
-                                <span class="star half right" data-value="10.0"></span>
-                            </div>
-                            <input name="BookRating" type="hidden" value="0" />
-                        </div>
-                        <div class="form-group">
-                            <textarea class="form-control" id="Comment" name="Comment" rows="2" placeholder="Viết bình luận của bạn..." required></textarea>
-                        </div>
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-danger btn-sm">Đánh giá ngay</button>
-                        </div>
-                    </form>
-                </div>
-            }
-            else
-            {
-                <div class="login-prompt mb-4">
-                    <p>Vui lòng <a href="@Url.Action("Login", "Account")">đăng nhập</a> để đánh giá sản phẩm.</p>
-                </div>
-            }
-
-            <!-- Danh sách bình luận -->
-            @if (ratinglist != null && ratinglist.Any())
-            {
-                foreach (var review in ratinglist)
+                }
+                else
                 {
-                    <div class="review-item d-flex align-items-start mb-3">
-                        <!-- Avatar -->
-                        <div class="avatar-circle me-3" style="background-color: @GetRandomColor();">
-                            <span>
-                                @usermap.FirstOrDefault(x => x.CSVUserId == review.UserID).User.FullName.Substring(0, 1).ToUpper()
-                            </span>
-                        </div>
-                        <div class="review-content">
-                            <div class="d-flex align-items-center">
-                                <strong>@usermap.FirstOrDefault(x=>x.CSVUserId==review.UserID).User.FullName</strong>
-                                <span class="text-muted ms-2">@review.DateCreated.ToString("dd/MM/yyyy")</span>
-                            </div>
+                    <div class="no-related-books">
+                        <p>Hiện tại chưa có sách.</p>
+                    </div>
+
+                }
+
+            </div>
+          
+            <!-- Đánh giá sản phẩm -->
+            <div class="product-reviews mt-5">
+                <h3>Đánh giá sản phẩm</h3>
+
+                <!-- Form đánh giá (chỉ hiển thị nếu đã đăng nhập) -->
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <div class="review-form mb-4">
+                        <!-- Form đánh giá -->
+                        <form action="/Book/CommentBook" method="post">
+                            <input type="hidden" name="ISBN" value="@Model.Book.ISBN" />
+                            <input type="hidden" name="UserID" value="@ViewBag.userId" />
                             <div class="star-rating">
-                                @{
-                                    double ratingInStars = review.BookRating / 2.0;
-                                    int fullStars = (int)Math.Floor(ratingInStars);
-                                    bool hasHalfStar = ratingInStars - fullStars >= 0.5;
-                                }
-                                @for (int i = 0; i < fullStars; i++)
-                                {
-                                    <span class="star filled">★</span>
-                                }
-                                @if (hasHalfStar)
-                                {
-                                    <span class="star-half-wrapper">
-                                        <span class="star half left filled">★</span>
-                                        <span class="star half right">★</span>
-                                    </span>
-                                }
-                                @for (int i = fullStars + (hasHalfStar ? 1 : 0); i < 5; i++)
-                                {
-                                    <span class="star">★</span>
-                                }
+                                <label>Đánh giá:</label>
+                                <div style="display:flex" class="stars">
+                                    <span class="star half left" data-value="1.0"></span>
+                                    <span class="star half right" data-value="2.0"></span>
+                                    <span class="star half left" data-value="3.0"></span>
+                                    <span class="star half right" data-value="4.0"></span>
+                                    <span class="star half left" data-value="5.0"></span>
+                                    <span class="star half right" data-value="6.0"></span>
+                                    <span class="star half left" data-value="7.0"></span>
+                                    <span class="star half right" data-value="8.0"></span>
+                                    <span class="star half left" data-value="9.0"></span>
+                                    <span class="star half right" data-value="10.0"></span>
+                                </div>
+                                <input name="BookRating" type="hidden" value="0" />
                             </div>
-                            <p>@review.Comment</p>
-                        </div>
+                            <div class="form-group">
+                                <textarea class="form-control" id="Comment" name="Comment" rows="2" placeholder="Viết bình luận của bạn..." required></textarea>
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-danger btn-sm">Đánh giá ngay</button>
+                            </div>
+                        </form>
                     </div>
                 }
-            }
-            else
-            {
-                <div class="no-reviews mb-4">
-                    <p>Chưa có đánh giá nào cho sản phẩm này.</p>
-                </div>
-            }
-        </div>
+                else
+                {
+                    <div class="login-prompt mb-4">
+                        <p>Vui lòng <a href="@Url.Action("Login", "Account")">đăng nhập</a> để đánh giá sản phẩm.</p>
+                    </div>
+                }
+
+                <!-- Danh sách bình luận -->
+                @if (ratinglist != null && ratinglist.Any())
+                {
+                    foreach (var review in ratinglist)
+                    {
+                        <div class="review-item d-flex align-items-start mb-3">
+                            <!-- Avatar -->
+                            <div class="avatar-circle me-3" style="background-color: @GetRandomColor();">
+                                <span>
+                                    @usermap.FirstOrDefault(x => x.CSVUserId == review.UserID).User.FullName.Substring(0, 1).ToUpper()
+                                </span>
+                            </div>
+                            <div class="review-content">
+                                <div class="d-flex align-items-center">
+                                    <strong>@usermap.FirstOrDefault(x => x.CSVUserId == review.UserID).User.FullName</strong>
+                                    <span class="text-muted ms-2">@review.DateCreated.ToString("dd/MM/yyyy")</span>
+                                </div>
+                                <div class="star-rating">
+                                    @{
+                                        double ratingInStars = review.BookRating / 2.0;
+                                        int fullStars = (int)Math.Floor(ratingInStars);
+                                        bool hasHalfStar = ratingInStars - fullStars >= 0.5;
+                                    }
+                                    @for (int i = 0; i < fullStars; i++)
+                                    {
+                                        <span class="star filled">★</span>
+                                    }
+                                    @if (hasHalfStar)
+                                    {
+                                        <span class="star-half-wrapper">
+                                            <span class="star half left filled">★</span>
+                                            <span class="star half right">★</span>
+                                        </span>
+                                    }
+                                    @for (int i = fullStars + (hasHalfStar ? 1 : 0); i < 5; i++)
+                                    {
+                                        <span class="star">★</span>
+                                    }
+                                </div>
+                                <p>@review.Comment</p>
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="no-reviews mb-4">
+                        <p>Chưa có đánh giá nào cho sản phẩm này.</p>
+                    </div>
+                }
+            </div>
         </div>
     </div>
 

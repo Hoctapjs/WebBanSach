@@ -42,35 +42,50 @@ namespace WebBanSach.Controllers
                 return HttpNotFound();
             }
 
-            // Lấy dữ liệu giao dịch từ OrderDetails
+            // Lấy danh sách giao dịch
             var transactions = _context.Orders
-                .Select(o => o.OrderDetails.Select(od => od.BookId).ToList())
-                .ToList();
+             .Where(o => o.OrderDetails.Any()) // bỏ đơn trống
+             .Select(o => o.OrderDetails.Select(od => od.BookId).Distinct().ToList())
+             .ToList();
 
-            // Tìm các tập hợp thường xuyên với minSupport = 0.1 (10%)
-            var frequentItemsets = Apriori.FindFrequentItemsets(transactions, 0.1);
 
-            // Lấy danh sách BookId liên quan
+            // Tìm tập phổ biến
+            var frequentItemsets = Apriori.FindFrequentItemsets(transactions, 0.2);
+
+
+
+            // 🔍 Log tập tập các giao dịch con
+            System.Diagnostics.Debug.WriteLine("======= TRANSACTIONS =======");
+            foreach (var t in transactions)
+            {
+                System.Diagnostics.Debug.WriteLine($"Giao dịch: [{string.Join(", ", t)}]");
+            }
+
+
+            // 🔍 Log tập phổ biến
+            foreach (var itemset in frequentItemsets)
+            {
+                System.Diagnostics.Debug.WriteLine($"Tập phổ biến: [{string.Join(", ", itemset)}]");
+            }
+
+            // Lấy sách liên quan
             var relatedBookIds = Apriori.GetRelatedBookIds(id, frequentItemsets);
 
-            // Lấy danh sách sách liên quan từ database
+            // 🔍 Log ID sách liên quan
+            System.Diagnostics.Debug.WriteLine($"Sách liên quan đến {id}: {string.Join(", ", relatedBookIds)}");
+
             var relatedBooks = _context.Books
                 .Where(b => relatedBookIds.Contains(b.Id))
                 .Take(5)
                 .ToList();
-            
-            // Lấy danh sách đánh giá sản phầm
-            var ratingBooks = _context.Ratings.Take(10).ToList();
 
-
-            // Nếu không có sách liên quan từ Apriori, gợi ý dựa trên cùng thể loại
-            if (!relatedBooks.Any())
+            // 🔍 Log thông tin sách gợi ý
+            foreach (var bookItem in relatedBooks)
             {
-                relatedBooks = _context.Books
-                    .Where(b => b.CategoryId == book.CategoryId && b.Id != book.Id)
-                    .Take(5)
-                    .ToList();
+                System.Diagnostics.Debug.WriteLine($"Gợi ý sách: {bookItem.Id} - {bookItem.Title}");
             }
+
+            var ratingBooks = _context.Ratings.Take(10).ToList();
 
             var model = new BookDetailViewModel
             {
@@ -80,17 +95,12 @@ namespace WebBanSach.Controllers
             };
 
             ViewBag.userId = User.Identity.GetUserId();
-
             ViewBag.usermap = _context.UserMaps.Include(u => u.User).ToList();
-
-
-
-
             ViewBag.ratinglist = _context.Ratings.Where(x => x.ISBN == book.ISBN).ToList();
-
 
             return View(model);
         }
+
 
         [Authorize]
         [HttpPost]
