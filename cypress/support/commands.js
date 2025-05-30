@@ -23,4 +23,13 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+<<<<<<< Updated upstream
 import "cypress-file-upload";
+=======
+
+Cypress.Commands.add("login", (username, password) => {
+  cy.get("#Username").type(username);
+  cy.get("#Password").type(password);
+  cy.get(".btn-login").click();
+});
+>>>>>>> Stashed changes
