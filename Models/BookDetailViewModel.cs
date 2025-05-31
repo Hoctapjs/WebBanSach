@@ -9,5 +9,6 @@ namespace WebBanSach.Models
     {
         public Book Book { get; set; }
         public List<Book> RelatedBooks { get; set; }
+        public List<RatingRow> Ratings { get; set; }
     }
 }
