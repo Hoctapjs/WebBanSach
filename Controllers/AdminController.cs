@@ -2,6 +2,7 @@
 using Microsoft.AspNet.Identity.Owin;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -112,6 +113,34 @@ namespace WebBanSach.Controllers
                 }
             }
             return RedirectToAction("Index", "Home");
+        }
+
+        public ActionResult PhieuNhaps()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                var user = db.Users.FirstOrDefault(x => x.UserName == User.Identity.Name);
+                if (user != null && user.Role == "Admin")
+                {
+                    var list = db.PhieuNhaps.Include("NhaCungCap").ToList();
+                    return View(list);
+                }
+            }
+            return RedirectToAction("Index", "Home");
+        }
+        public ActionResult ChiTietPhieuNhap(int id)
+        {
+            var phieu = db.PhieuNhaps
+                .Include("ChiTietPhieuNhaps.Book")
+                .Include("NhaCungCap")
+                .FirstOrDefault(p => p.Id == id);
+
+            if (phieu == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(phieu);
         }
 
 
@@ -570,6 +599,9 @@ namespace WebBanSach.Controllers
 
         }
 
+
+
+
         //Xóa
         public ActionResult Delete_order(int id)
         {
@@ -614,6 +646,16 @@ namespace WebBanSach.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+
+        public ActionResult ConfirmOrder(int id)
+        {
+            var order = db.Orders.FirstOrDefault(x => x.Id == id);
+            if (order == null) { return HttpNotFound(); }
+
+            order.Status = "1";
+            db.SaveChanges();
+            return RedirectToAction("Orders");
+        }
         // tính năng ko mở lên chạy
 
         //public ActionResult SeedCsvUsers()
@@ -624,5 +666,233 @@ namespace WebBanSach.Controllers
 
         //    return Content("Tạo user và ánh xạ thành công!");
         //}
+
+        //===============================================Quản lý phiếu nhập và nhà cung cấp
+        // =========================== Thêm phiếu nhập
+        public ActionResult CreatePhieuNhap()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                var user = db.Users.FirstOrDefault(x => x.UserName == User.Identity.Name);
+                if (user != null && user.Role == "Admin")
+                {
+                    var phieuNhap = new PhieuNhap
+                    {
+                        NgayNhap = DateTime.Now
+                    };
+                    ViewBag.NhaCungCapId = new SelectList(db.NhaCungCaps, "Id", "TenNhaCungCap");
+                    return View(phieuNhap);
+                }
+            }
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreatePhieuNhap(PhieuNhap phieuNhap)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                var user = db.Users.FirstOrDefault(x => x.UserName == User.Identity.Name);
+                if (user != null && user.Role == "Admin")
+                {
+                    if (ModelState.IsValid)
+                    {
+                        db.PhieuNhaps.Add(phieuNhap);
+                        db.SaveChanges();
+                        return RedirectToAction("AddChiTietPhieuNhap", new { phieuNhapId = phieuNhap.Id });
+                    }
+                    ViewBag.NhaCungCapId = new SelectList(db.NhaCungCaps, "Id", "TenNhaCungCap", phieuNhap.NhaCungCapId);
+                    return View(phieuNhap);
+                }
+            }
+            return RedirectToAction("Index", "Home");
+        }
+
+        // =========================== Sửa phiếu nhập
+        public ActionResult EditPhieuNhap(int id)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                var user = db.Users.FirstOrDefault(x => x.UserName == User.Identity.Name);
+                if (user != null && user.Role == "Admin")
+                {
+                    var phieuNhap = db.PhieuNhaps.Find(id);
+                    if (phieuNhap == null) return HttpNotFound();
+                    ViewBag.NhaCungCapId = new SelectList(db.NhaCungCaps, "Id", "TenNhaCungCap", phieuNhap.NhaCungCapId);
+                    return View(phieuNhap);
+                }
+            }
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditPhieuNhap(PhieuNhap phieuNhap)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                var user = db.Users.FirstOrDefault(x => x.UserName == User.Identity.Name);
+                if (user != null && user.Role == "Admin")
+                {
+                    if (ModelState.IsValid)
+                    {
+                        db.Entry(phieuNhap).State = EntityState.Modified;
+                        db.SaveChanges();
+                        return RedirectToAction("PhieuNhaps");
+                    }
+                    ViewBag.NhaCungCapId = new SelectList(db.NhaCungCaps, "Id", "TenNhaCungCap", phieuNhap.NhaCungCapId);
+                    return View(phieuNhap);
+                }
+            }
+            return RedirectToAction("Index", "Home");
+        }
+
+        // =========================== Xóa phiếu nhập
+        public ActionResult DeletePhieuNhap(int id)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                var user = db.Users.FirstOrDefault(x => x.UserName == User.Identity.Name);
+                if (user != null && user.Role == "Admin")
+                {
+                    var phieuNhap = db.PhieuNhaps.Find(id);
+                    if (phieuNhap == null) return HttpNotFound();
+                    return View(phieuNhap);
+                }
+            }
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost, ActionName("DeletePhieuNhap")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeletePhieuNhapConfirmed(int id)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                var user = db.Users.FirstOrDefault(x => x.UserName == User.Identity.Name);
+                if (user != null && user.Role == "Admin")
+                {
+                    var phieuNhap = db.PhieuNhaps.Find(id);
+                    if (phieuNhap == null) return HttpNotFound();
+                    db.PhieuNhaps.Remove(phieuNhap);
+                    db.SaveChanges();
+                    return RedirectToAction("PhieuNhaps");
+                }
+            }
+            return RedirectToAction("Index", "Home");
+        }
+
+        // =========================== Thêm chi tiết ngay sau khi tạo phiếu nhập
+        public JsonResult SearchBooks(string term)
+        {
+            var matchedBooks = db.Books
+                .Where(b => b.Title.Contains(term))
+                .Select(b => new { b.Id, b.Title })
+                .Take(20)
+                .ToList();
+
+            return Json(matchedBooks, JsonRequestBehavior.AllowGet);
+        }
+
+        // GET
+        public ActionResult AddChiTietPhieuNhap(int phieuNhapId)
+        {
+            ViewBag.PhieuNhapId = phieuNhapId;
+            return View();
+        }
+
+        // POST
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddChiTietPhieuNhap(ChiTietPhieuNhap ct)
+        {
+            if (ModelState.IsValid)
+            {
+                db.ChiTietPhieuNhaps.Add(ct);
+                db.SaveChanges();
+                TempData["SuccessMessage"] = "Đã thêm chi tiết cho phiếu nhập.";
+                return RedirectToAction("AddChiTietPhieuNhap", new { phieuNhapId = ct.PhieuNhapId });
+            }
+
+            ViewBag.PhieuNhapId = ct.PhieuNhapId;
+            return View(ct);
+        }
+
+
+
+        // =========================== Danh sách nhà cung cấp
+        public ActionResult NhaCungCaps()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                var user = db.Users.FirstOrDefault(x => x.UserName == User.Identity.Name);
+                if (user != null && user.Role == "Admin")
+                {
+                    var list = db.NhaCungCaps.ToList();
+                    return View(list);
+                }
+            }
+            return RedirectToAction("Index", "Home");
+        }
+
+        // =========================== Thêm nhà cung cấp
+        public ActionResult CreateNhaCungCap()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateNhaCungCap(NhaCungCap ncc)
+        {
+            if (ModelState.IsValid)
+            {
+                db.NhaCungCaps.Add(ncc);
+                db.SaveChanges();
+                return RedirectToAction("NhaCungCaps");
+            }
+            return View(ncc);
+        }
+
+        // =========================== Sửa nhà cung cấp
+        public ActionResult EditNhaCungCap(int id)
+        {
+            var ncc = db.NhaCungCaps.Find(id);
+            if (ncc == null) return HttpNotFound();
+            return View(ncc);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditNhaCungCap(NhaCungCap ncc)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(ncc).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("NhaCungCaps");
+            }
+            return View(ncc);
+        }
+
+        // =========================== Xóa nhà cung cấp
+        public ActionResult DeleteNhaCungCap(int id)
+        {
+            var ncc = db.NhaCungCaps.Find(id);
+            if (ncc == null) return HttpNotFound();
+            return View(ncc);
+        }
+
+        [HttpPost, ActionName("DeleteNhaCungCap")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteNhaCungCapConfirmed(int id)
+        {
+            var ncc = db.NhaCungCaps.Find(id);
+            if (ncc == null) return HttpNotFound();
+            db.NhaCungCaps.Remove(ncc);
+            db.SaveChanges();
+            return RedirectToAction("NhaCungCaps");
+        }
     }
 }

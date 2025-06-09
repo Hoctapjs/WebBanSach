@@ -1,0 +1,108 @@
+﻿@model IEnumerable<WebBanSach.Models.Order>
+@{
+    ViewBag.Title = "History";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2 class="text-center mb-4">🧾 Lịch sử Đơn Hàng</h2>
+    <table class="table table-bordered table-striped table-hover" id="myTable">
+        <thead class="thead-dark">
+            <tr>
+                <th>Id</th>
+                <th>Ngày đặt</th>
+                <th>Trạng thái</th>
+                <th>Chức năng</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (!Model.Any())
+            {
+                <tr>
+                    <td colspan="4" class="text-center text-muted">Bạn chưa có đơn hàng nào.</td>
+                </tr>
+            }
+            else
+            {
+                foreach (var item in Model)
+                {
+                    <tr class="@(
+                        item.Status == "0" ? "table-warning" :
+                        item.Status == "1" ? "table-success" :
+                        item.Status == "2" ? "table-danger" : ""
+                    )">
+                        <td>@item.Id</td>
+                        <td>@item.OrderDate</td>
+                        <td>
+                            @if (item.Status == "0")
+                            {
+                                <span class="text-secondary"><i class="fa fa-clock"></i> Đang xử lý</span>
+                            }
+                            else if (item.Status == "1")
+                            {
+                                <span class="text-success"><i class="fa fa-check-circle"></i> Đã xử lý</span>
+                            }
+                            else
+                            {
+                                <span class="text-danger"><i class="fa fa-times-circle"></i> Đã hủy</span>
+                            }
+                        </td>
+                        <td>
+                            @if (item.Status == "0")
+                            {
+                                <button class="btn btn-success btn-sm cancel-btn" data-id="@item.Id">Hủy đơn</button>
+                            }
+                            else
+                            {
+                                <button class="btn btn-danger btn-sm" disabled>Hủy đơn</button>
+                            }
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+
+@section Scripts {
+    <script>
+         $(document).ready(function () {
+             $('.cancel-btn').click(function () {
+                 const orderId = $(this).data('id');
+
+                 Swal.fire({
+                     title: 'Xác nhận hủy đơn?',
+                     text: "Thao tác này không thể hoàn tác!",
+                     icon: 'warning',
+                     showCancelButton: true,
+                     confirmButtonColor: '#3085d6',
+                     cancelButtonColor: '#d33',
+                     confirmButtonText: 'Có, hủy đơn!',
+                     cancelButtonText: 'Không'
+                 }).then((result) => {
+                     if (result.isConfirmed) {
+                         $.ajax({
+                             url: '@Url.Action("CancelOrder", "Order")',
+                             type: 'POST',
+                             data: { id: orderId },
+                             success: function (response) {
+                                 if (response.success) {
+                                     Swal.fire('Đã hủy!', response.message, 'success').then(() => {
+                                         location.reload();
+                                     });
+                                 } else {
+                                     Swal.fire('Lỗi', response.message, 'error');
+                                 }
+                             },
+                             error: function () {
+                                 Swal.fire('Lỗi', 'Không thể kết nối đến máy chủ.', 'error');
+                             }
+                         });
+                     }
+                 });
+             });
+         });
+    </script>
+
+}

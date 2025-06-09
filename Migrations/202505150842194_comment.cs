@@ -7,8 +7,8 @@
     {
         public override void Up()
         {
-            AddColumn("dbo.RatingRows", "Comment", c => c.String());
-            AddColumn("dbo.RatingRows", "DateCreated", c => c.DateTime(nullable: false));
+            //AddColumn("dbo.RatingRows", "Comment", c => c.String());
+            //AddColumn("dbo.RatingRows", "DateCreated", c => c.DateTime(nullable: false));
         }
         
         public override void Down()

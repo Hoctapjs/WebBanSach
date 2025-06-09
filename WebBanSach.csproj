@@ -286,6 +286,10 @@
     <Compile Include="Migrations\202505150842194_comment.Designer.cs">
       <DependentUpon>202505150842194_comment.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202506080651437_nhaphang.cs" />
+    <Compile Include="Migrations\202506080651437_nhaphang.Designer.cs">
+      <DependentUpon>202506080651437_nhaphang.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
@@ -295,10 +299,13 @@
     <Compile Include="Models\BookStoreDbContext.cs" />
     <Compile Include="Models\CartItem.cs" />
     <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\ChiTietPhieuNhap.cs" />
     <Compile Include="Models\HomeViewModel.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
+    <Compile Include="Models\NhaCungCap.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\OrderDetail.cs" />
+    <Compile Include="Models\PhieuNhap.cs" />
     <Compile Include="Models\RatingRow.cs" />
     <Compile Include="Models\RegisterViewModel.cs" />
     <Compile Include="Models\ShoppingCartItem.cs" />
@@ -345,6 +352,18 @@
     <Content Include="Views\Admin\Create_order.cshtml" />
     <Content Include="Views\Admin\Edit_order.cshtml" />
     <Content Include="Views\Admin\Delete_order.cshtml" />
+    <Content Include="Views\Order\History.cshtml" />
+    <Content Include="Views\Admin\CreatePhieuNhap.cshtml" />
+    <Content Include="Views\Admin\EditPhieuNhap.cshtml" />
+    <Content Include="Views\Admin\DeletePhieuNhap.cshtml" />
+    <Content Include="Views\Admin\DeletePhieuNhapConfirmed.cshtml" />
+    <Content Include="Views\Admin\PhieuNhaps.cshtml" />
+    <Content Include="Views\Admin\NhaCungCaps.cshtml" />
+    <Content Include="Views\Admin\CreateNhaCungCap.cshtml" />
+    <Content Include="Views\Admin\EditNhaCungCap.cshtml" />
+    <Content Include="Views\Admin\DeleteNhaCungCap.cshtml" />
+    <Content Include="Views\Admin\AddChiTietPhieuNhap.cshtml" />
+    <Content Include="Views\Admin\ChiTietPhieuNhap.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -388,6 +407,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202505150842194_comment.resx">
       <DependentUpon>202505150842194_comment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202506080651437_nhaphang.resx">
+      <DependentUpon>202506080651437_nhaphang.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

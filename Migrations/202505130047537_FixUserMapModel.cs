@@ -7,10 +7,10 @@
     {
         public override void Up()
         {
-            DropPrimaryKey("dbo.UserMaps");
-            AddColumn("dbo.UserMaps", "Id", c => c.Int(nullable: false, identity: true));
-            AlterColumn("dbo.UserMaps", "AppUserId", c => c.String());
-            AddPrimaryKey("dbo.UserMaps", "Id");
+            //DropPrimaryKey("dbo.UserMaps");
+            //AddColumn("dbo.UserMaps", "Id", c => c.Int(nullable: false, identity: true));
+            //AlterColumn("dbo.UserMaps", "AppUserId", c => c.String());
+            //AddPrimaryKey("dbo.UserMaps", "Id");
         }
         
         public override void Down()

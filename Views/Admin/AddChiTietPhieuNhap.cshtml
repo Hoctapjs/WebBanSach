@@ -1,12 +1,23 @@
-﻿@model List<WebBanSach.Models.Book>
+﻿@model WebBanSach.Models.ChiTietPhieuNhap
 
 @{
-    ViewBag.Title = "Quản lý sách";
+    ViewBag.Title = "Thêm chi tiết phiếu nhập";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <style>
     /* CSS cơ bản cho giao diện */
+
+
+    .form-actions .btn {
+        width: 120px;
+        height: 45px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+
     .admin-container {
         display: flex;
         min-height: 100vh;
@@ -301,8 +312,9 @@
 
 <div class="sidebar-overlay"></div>
 
+
+
 <div class="admin-container">
-    <!-- Sidebar -->
     <div class="admin-sidebar">
         <h3>Admin Panel</h3>
         <ul>
@@ -315,92 +327,77 @@
         </ul>
     </div>
 
-    <!-- Main content -->
-    <div class="admin-main-content">
-        <h1>Quản Lý Sách</h1>
 
-        <div class="d-flex justify-content-between align-items-center mb-3" style="gap: 10px;">
-            <a class="btn btn-accent" href="@Url.Action("Create_book", "Admin")">Create a new book</a>
+    <div class="card shadow p-4 bg-white rounded" style="max-width: 600px; margin: auto;">
+        <h2 class="mb-4 text-center text-dark">Add Purchase Order Details</h2>
 
-            @if (ViewBag.TotalPages > 1)
-            {
-                <div class="pagination d-flex" style="margin: 0;">
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+        }
+        @using (Html.BeginForm("AddChiTietPhieuNhap", "Admin", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(m => m.PhieuNhapId)
 
-                    @{
-                        int currentPage = ViewBag.CurrentPage;
-                        int totalPages = ViewBag.TotalPages;
-                        int maxDisplay = 10;
+            <div class="mb-3">
+                @Html.Label("BookId", "Select Book", new { @class = "form-label" })
+                <select id="BookId" name="BookId" class="form-select"></select>
+            </div>
 
-                        int startPage = ((currentPage - 1) / maxDisplay) * maxDisplay + 1;
-                        int endPage = Math.Min(startPage + maxDisplay - 1, totalPages);
-                    }
+            <div class="mb-3">
+                @Html.LabelFor(m => m.SoLuong, new { @class = "form-label" })
+                @Html.TextBoxFor(m => m.SoLuong, new { @class = "form-control", type = "number", min = "1" })
+            </div>
 
-                    @if (startPage > 1)
-                    {
-                        <a href="@Url.Action("Books", "Admin", new { page = startPage - 1 })" class="btn btn-light mx-1">«</a>
-                    }
+            <div class="mb-3">
+                @Html.LabelFor(m => m.DonGiaNhap, new { @class = "form-label" })
+                @Html.TextBoxFor(m => m.DonGiaNhap, new { @class = "form-control", type = "number", step = "0.01" })
+            </div>
 
-                    @for (int i = startPage; i <= endPage; i++)
-                    {
-                        if (i == currentPage)
-                        {
-                            <span class="btn btn-dark mx-1">@i</span>
-                        }
-                        else
-                        {
-                            <a href="@Url.Action("Books", "Admin", new { page = i })" class="btn btn-light mx-1">@i</a>
-                        }
-                    }
-
-                    @if (endPage < totalPages)
-                    {
-                        <a href="@Url.Action("Books", "Admin", new { page = endPage + 1 })" class="btn btn-light mx-1">»</a>
-                    }
-                </div>
-            }
-        </div>
-
-        <!-- Bọc bảng trong div có thanh cuộn -->
-        <div class="table-container">
-            <table class="table">
-                <tr>
-                    <th>Id</th>
-                    <th>Hình</th>
-                    <th>Tiêu đề</th>
-                    <th>Mô tả</th>
-                    <th>Tác giả</th>
-                    <th>Giá</th>
-                    <th>Thể loại</th>
-                    <th style="text-align:center">Chức năng</th>
-                </tr>
-
-                @foreach (var book in Model)
-                {
-                    <tr>
-                        <td>@book.Id</td>
-                        <td>
-                            <img src="@book.ImageUrl"
-                                 alt="@book.Title"
-                                 class="book-image"
-                                 onerror="this.onerror=null;this.src='/Asset/images/DefaultBook.png';"
-                                 onload="if(this.naturalWidth < 100 || this.naturalHeight < 100){this.src='/Asset/images/DefaultBook.png';}" />
-                        </td>
-                        <td>@book.Title</td>
-                        <td>@book.Description</td>
-                        <td>@book.Author</td>
-                        <td class="price">@String.Format("{0:N1}₫", book.Price)</td>
-                        <td>@book.Category.Name</td>
-                        <td style="text-align:center">
-                            <a style="margin-right:10px" href="@Url.Action("Delete_book", "Admin", new {id=book.Id})">
-                                <i class="fas fa-trash-alt"></i>
-                            </a>
-                            <a href="@Url.Action("Edit_book", "Admin", new {id=book.Id})">
-                                <i class="fas fa-pen-alt"></i>
-                            </a>
-                        </td>
-                    </tr>
-                }
-            </table>
-        </div>
+            @*<div class="d-flex ">
+                <button type="submit" class="btn btn-primary">Add</button>
+                <a class="btn btn-secondary" href="@Url.Action("PhieuNhaps", "Admin")">Back</a>
+            </div>*@
+            <div class="form-actions d-flex justify-content-end gap-2">
+                <button type="submit" class="btn btn-primary w-25">Thêm</button>
+                <a href="@Url.Action("PhieuNhaps", "Admin")" class="btn btn-secondary w-25">Hủy</a>
+            </div>
+        }
     </div>
 </div>
+@section Scripts {
+    <script>
+        var searchBooksUrl = '@Url.Action("SearchBooks", "Admin")';
+
+        $(document).ready(function () {
+            $('#BookId').select2({
+                placeholder: "Tìm kiếm sách...",
+                allowClear: true,
+                minimumInputLength: 2,
+                ajax: {
+                    url: searchBooksUrl,
+                    dataType: 'json',
+                    delay: 250,
+                    data: function (params) {
+                        return { term: params.term };
+                    },
+                    processResults: function (data) {
+                        return {
+                            results: $.map(data, function (item) {
+                                return {
+                                    id: item.Id,
+                                    text: item.Title
+                                };
+                            })
+                        };
+                    }
+                }
+            });
+        });
+    </script>
+}
+
+
+
+

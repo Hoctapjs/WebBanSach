@@ -28,6 +28,9 @@ namespace WebBanSach.Models
         public DbSet<UserMap> UserMaps { get; set; }
 
         public DbSet<RatingRow> Ratings { get; set; }
+        public DbSet<PhieuNhap> PhieuNhaps { get; set; }
+        public DbSet<ChiTietPhieuNhap> ChiTietPhieuNhaps { get; set; }
+        public DbSet<NhaCungCap> NhaCungCaps { get; set; }
 
     }
 }

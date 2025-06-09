@@ -1,18 +1,9 @@
-﻿@model List<WebBanSach.Models.ApplicationUser>
+﻿@model List<WebBanSach.Models.PhieuNhap>
 
 @{
-    ViewBag.Title = "Users";
+    ViewBag.Title = "Quản lý phiếu nhập";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-
-@{
-    ViewBag.Title = "Quản lý người dùng";
-}
-
-
-
-
 
 <style>
     .admin-container {
@@ -65,49 +56,15 @@
         background-color: #f1f3f5;
     }
 
-    .dashboard-cards {
-        display: flex;
-        gap: 30px;
-        flex-wrap: wrap;
-    }
-
-    .card {
-        flex: 1;
-        min-width: 220px;
-        background-color: #ffffff;
-        padding: 25px;
-        border-radius: 10px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-        text-align: center;
-        transition: transform 0.3s ease;
-    }
-
-        .card:hover {
-            transform: translateY(-5px);
+        .admin-main-content h2 {
+            margin-bottom: 30px;
         }
 
-        .card h4 {
-            margin-bottom: 10px;
-            font-size: 20px;
-            color: #343a40;
-        }
-
-        .card .value {
-            font-size: 28px;
-            font-weight: bold;
-            color: #007bff;
-        }
-
-    .admin-main-content h2 {
-        margin-bottom: 30px;
-    }
-
-    /* Thêm container cho bảng */
     .table-container {
-        max-height: 500px; /* Chiều cao tối đa trước khi xuất hiện thanh cuộn */
-        overflow-y: auto; /* Thanh cuộn dọc */
-        overflow-x: hidden; /* Ẩn thanh cuộn ngang nếu không cần */
-        border-radius: 8px; /* Giữ bo góc cho đồng bộ */
+        max-height: 500px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        border-radius: 8px;
     }
 
     .table {
@@ -123,9 +80,9 @@
             padding: 15px;
             text-align: left;
             font-weight: 600;
-            position: sticky; /* Giữ header cố định khi cuộn */
-            top: 0; /* Đặt header ở trên cùng */
-            z-index: 1; /* Đảm bảo header nằm trên các dòng */
+            position: sticky;
+            top: 0;
+            z-index: 1;
         }
 
         .table td {
@@ -147,18 +104,6 @@
         .table td:first-child {
             padding-left: 20px;
         }
-
-    .price {
-        font-weight: 500;
-        color: #28a745;
-    }
-
-    /* Đảm bảo hình ảnh không vượt quá ô */
-    .table img {
-        max-width: 100px;
-        height: auto;
-        display: block;
-    }
 </style>
 
 <div class="admin-container">
@@ -177,41 +122,38 @@
 
     <!-- Main content -->
     <div class="admin-main-content">
-        <h2>Danh sách người dùng</h2>
-        <a class="btn btn-accent" href="@Url.Action("Create_user", "Admin")">Create a new user</a>
-        <br />  <br />
-        <!-- Bọc bảng trong div có thanh cuộn -->
+        <h2>	Purchase Receipt List</h2>
+        <a class="btn btn-accent" href="@Url.Action("CreatePhieuNhap", "Admin")">Tạo phiếu nhập mới</a>
+        <br /><br />
         <div class="table-container">
-
-
             <table class="table">
-                <tr>
-
-                    <th>Username</th>
-                    <th>Fullname</th>
-                    <th>Email</th>
-                    <th>Vai trò</th>
-                    <th style="text-align:center">Chức năng</th>
-                </tr>
-
-                @foreach (var user in Model)
-                {
+                <thead>
                     <tr>
-
-                        <td>@user.UserName</td>
-                        <td>@user.FullName</td>
-                        <td>@user.Email</td>
-                        <td>@user.Role</td>
-                        <td style="text-align:center">
-                            <a style="margin-right:10px" href="@Url.Action("Delete_user", "Admin", new {id=user.Id})">
-                                <i class="fas fa-trash-alt"></i>
-                            </a>
-                            <a href="@Url.Action("Edit_user", "Admin", new {id=user.Id})">
-                                <i class="fas fa-pen-alt"></i>
-                            </a>
-                        </td>
+                        <th>ID</th>
+                        <th>Ngày nhập</th>
+                        <th>Nhà cung cấp</th>
+                        <th>Chức năng</th>
                     </tr>
-                }
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Id</td>
+                            <td>@item.NgayNhap.ToString("dd/MM/yyyy")</td>
+                            <td>@item.NhaCungCap.TenNhaCungCap</td>
+                            <td>
+                                <a style="text-decoration:none" href="@Url.Action("AddChiTietPhieuNhap", "Admin", new { phieuNhapId = item.Id })">
+                                    📝
+                                </a>
+                                <a href="@Url.Action("DeletePhieuNhap", "Admin", new { id = item.Id })"><i class="fas fa-trash-alt"></i></a>
+
+                                <a href="@Url.Action("EditPhieuNhap", "Admin", new { id = item.Id })"> <i class="fas fa-pen-alt"></i></a>
+                                <a style="text-decoration:none" href="@Url.Action("ChiTietPhieuNhap", "Admin", new { id = item.Id })">👁️</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
             </table>
         </div>
     </div>

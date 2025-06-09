@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -31,14 +32,18 @@ namespace WebBanSach.Controllers
             if (cart == null || !cart.Any())
                 return RedirectToAction("Index", "Cart");
 
+            var userASPId = User.Identity.GetUserId();
+            var userMap= db.UserMaps.FirstOrDefault(x => x.AppUserId == userASPId);
+
+
             // Giả sử người dùng đã đăng nhập và có UserId = 2
-            int userId = 2; // Trong thực tế, lấy từ session hoặc Identity
+            int userId = int.Parse(userMap.CSVUserId); // Trong thực tế, lấy từ session hoặc Identity
 
             var order = new Order
             {
                 UserId = userId,
                 OrderDate = DateTime.Now,
-                Status = "Pending",
+                Status = "0",
                 OrderDetails = new List<OrderDetail>()
             };
 
@@ -67,5 +72,37 @@ namespace WebBanSach.Controllers
         {
             return View();
         }
+
+        [Authorize]
+        public ActionResult History()
+        {
+            var userASPId = User.Identity.GetUserId();
+            var userMap = db.UserMaps.FirstOrDefault(x => x.AppUserId == userASPId);
+            var userCSVId= int.Parse(userMap.CSVUserId);
+            var list = db.Orders.Where(x => x.UserId == userCSVId);
+            return View(list);
+        }
+
+        [HttpPost]
+        public JsonResult CancelOrder(int id)
+        {
+            var order = db.Orders.FirstOrDefault(x => x.Id == id);
+            if (order == null)
+            {
+                return Json(new { success = false, message = "Đơn hàng không tồn tại." });
+            }
+
+            if (order.Status == "1")
+            {
+                return Json(new { success = false, message = "Đơn hàng đã được xử lý, không thể hủy." });
+            }
+
+            order.Status = "2";
+            db.SaveChanges();
+
+            return Json(new { success = true, message = "Đã hủy đơn hàng thành công." });
+        }
+
+
     }
 }

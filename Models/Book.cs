@@ -17,6 +17,8 @@ namespace WebBanSach.Models
         public int Stock { get; set; }
         public int CategoryId { get; set; }
         public virtual Category Category { get; set; }
+        // Thêm quan hệ với chi tiết phiếu nhập
+        public virtual ICollection<ChiTietPhieuNhap> ChiTietPhieuNhaps { get; set; }
     }
 
 }
